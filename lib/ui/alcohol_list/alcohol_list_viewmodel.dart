@@ -11,12 +11,9 @@ import 'package:stacked/stacked.dart';
 
 class AlcoholListViewModel extends BaseViewModel {
   final _firestore = servicesLocator<FirestoreService>();
-  Future<void> setBusyToAlcoholListViewModel() {
-    setBusy(true);
-  }
 
-  Future<void> setNotBusyToAlcoholListViewModel() {
-    setBusy(false);
+  void showLoading({bool show = true}) {
+    setBusy(show);
   }
 
   Future<void> loadOcyake() async {

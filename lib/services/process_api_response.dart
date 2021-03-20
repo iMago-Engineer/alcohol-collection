@@ -7,10 +7,8 @@ class ProcessAPIService {
     var data = jsonDecode(response);
     var images = data["images"];
 
-    // ignore: non_constant_identifier_names
-    String text_i = "";
-    // ignore: non_constant_identifier_names
-    String text_i_plus_1 = "";
+    String textI = "";
+    String nextTextI = "";
     // type は　品目 を表す
     String type = "None";
     // alcohol は 度数 Noneを表す
@@ -18,40 +16,39 @@ class ProcessAPIService {
     // madeIn は 原産地 を表す
     String madeIn = "None";
     for (int i = 0; i < images[0]["fields"].length - 1; i++) {
-      text_i = images[0]["fields"][i]["inferText"].replaceAll(":", "");
-      text_i_plus_1 = images[0]["fields"][i + 1]["inferText"];
-      if (text_i == "品") {
-        type = text_i + text_i_plus_1;
-      } else if (text_i == "品目") {
+      textI = images[0]["fields"][i]["inferText"].replaceAll(":", "");
+      nextTextI = images[0]["fields"][i + 1]["inferText"];
+      if (textI == "品") {
+        type = textI + nextTextI;
+      } else if (textI == "品目") {
         type = images[0]["fields"][i + 1]["inferText"];
-      } else if (text_i.contains("品目")) {
-        type = text_i.split("品目")[1];
+      } else if (textI.contains("品目")) {
+        type = textI.split("品目")[1];
       }
-      if (text_i == "アルコール分") {
-        alcohol = text_i_plus_1;
-      } else if (text_i.contains("アルコール分")) {
-        alcohol = text_i.split("アルコール分")[1]; // 50%
+      if (textI == "アルコール分") {
+        alcohol = nextTextI;
+      } else if (textI.contains("アルコール分")) {
+        alcohol = textI.split("アルコール分")[1]; // 50%
       }
-      if (text_i == "原産国名") {
-        madeIn = text_i_plus_1;
-      } else if (text_i == "原産地") {
-        madeIn = text_i_plus_1;
-      } else if (text_i == "原料原産地名") {
-        madeIn = text_i_plus_1;
-      } else if (text_i.contains("原産国名")) {
-        madeIn = text_i.split("原産国名")[1];
-      } else if (text_i.contains("原料原産地名")) {
-        madeIn = text_i.split("原料原産地名")[1];
-      } else if (text_i.contains("原産地")) {
-        madeIn = text_i.split("原産地")[1];
+      if (textI == "原産国名") {
+        madeIn = nextTextI;
+      } else if (textI == "原産地") {
+        madeIn = nextTextI;
+      } else if (textI == "原料原産地名") {
+        madeIn = nextTextI;
+      } else if (textI.contains("原産国名")) {
+        madeIn = textI.split("原産国名")[1];
+      } else if (textI.contains("原料原産地名")) {
+        madeIn = textI.split("原料原産地名")[1];
+      } else if (textI.contains("原産地")) {
+        madeIn = textI.split("原産地")[1];
       }
     }
 
-    // ignore: non_constant_identifier_names
-    String serch_term = "";
+    String searchTerm = "";
     for (int i = 0; i < 3; i++) {
-      text_i = images[0]["fields"][i]["inferText"].replaceAll(":", "");
-      serch_term = serch_term + " " + text_i;
+      textI = images[0]["fields"][i]["inferText"].replaceAll(":", "");
+      searchTerm = searchTerm + " " + textI;
     }
 
     // ##########################
@@ -61,6 +58,6 @@ class ProcessAPIService {
     // ##########################
 
     print("End: inferBasicData");
-    return [type, alcohol, madeIn, serch_term];
+    return [type, alcohol, madeIn, searchTerm];
   }
 }

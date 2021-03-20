@@ -51,21 +51,21 @@ Future showImagePickerDialog(context, AlcoholListViewModel model) {
           CupertinoDialogAction(
             child: Text("画像選択"),
             onPressed: () async {
-              Ocyake new_ocyake =
+              Ocyake newOcyake =
                   await getOcyakeBySendImage("gallery", context, model);
 
               /// 確認画面
-              confirmDialog(model, new_ocyake);
+              confirmDialog(model, newOcyake);
             },
           ),
           CupertinoDialogAction(
               child: Text("カメラ"),
               onPressed: () async {
-                Ocyake new_ocyake =
+                Ocyake newOcyake =
                     await getOcyakeBySendImage("camera", context, model);
 
                 /// 確認画面
-                confirmDialog(model, new_ocyake);
+                confirmDialog(model, newOcyake);
               }),
         ],
       );
@@ -91,7 +91,7 @@ Future<Ocyake> getOcyakeBySendImage(
 
   // to Loading Screen
   _navigator.pop();
-  model.setBusyToAlcoholListViewModel();
+  model.showLoading();
 
   // Firebase に送る処理
   // TODO: FixPATH
@@ -125,7 +125,7 @@ Future<Ocyake> getOcyakeBySendImage(
 
   // set NotBusy
   print("setNotBusyToRootViewModel");
-  model.setNotBusyToAlcoholListViewModel();
+  model.showLoading(show: false);
 
   return newOcyake;
 }
@@ -216,7 +216,7 @@ Future saveOcyake(model, newOcyake) async {
 
   // to Loading Screen
   _navigator.pop();
-  model.setBusyToAlcoholListViewModel();
+  model.showLoading();
 
   // firestore に保存されているかどうかを確認する
   final photoTakenBefore = await _firestore.ocyatePhotoTakenBefore(newOcyake);
