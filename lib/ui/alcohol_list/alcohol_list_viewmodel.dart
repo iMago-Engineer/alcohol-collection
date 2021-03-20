@@ -1,125 +1,40 @@
 import 'package:alcohol_collection/models/comment.dart';
 import 'package:alcohol_collection/models/ocyake.dart';
-import 'package:alcohol_collection/services/style.dart';
-import 'package:alcohol_collection/shared/loading.dart';
-import 'package:flutter/material.dart';
-import 'package:slimy_card/slimy_card.dart';
+import 'package:alcohol_collection/services/firestore.dart';
+import 'package:alcohol_collection/service_locator.dart';
 import 'package:stacked/stacked.dart';
 
-import 'alcohole_list_view.dart';
+class AlcoholListViewModel extends BaseViewModel {
+  Future<void> loadOcyake() async {
+    setBusy(true);
 
-class AlcoholListView extends StatelessWidget {
-  static const routeName = '/alcohol_list';
-  @override
-  Widget build(BuildContext context) {
-    return ViewModelBuilder<AlcoholListViewModel>.reactive(
-      viewModelBuilder: () => AlcoholListViewModel(),
-      onModelReady: (model) => model.loadOcyake(),
-      builder: (context, model, child) => model.isBusy
-          ? Loading()
-          : Scaffold(
-              appBar: AppBar(
-                title: Text('Alcohol collection',
-                    style: TextStyle(
-                        color: Colors.white, fontWeight: FontWeight.bold)),
-                centerTitle: false,
-                backgroundColor: Theme.of(context).accentColor,
-              ),
-              body: _AlcoholListScreen(),
-              backgroundColor: Color(0xff191414),
-            ),
-    );
+    _ocyakes = await servicesLocator<FirestoreService>().fetchOcyakes();
+
+    setBusy(false);
+    notifyListeners();
   }
-}
 
-class _AlcoholListScreen extends ViewModelWidget<AlcoholListViewModel> {
-  @override
-  Widget build(BuildContext context, AlcoholListViewModel model) {
-    return SafeArea(
-      child: ListView.builder(
-          itemCount: model.osyakes.length,
-          itemBuilder: (context, i) => _OcyakeCard(ocyake: model.osyakes[i])),
-    );
-  }
-}
+  List<Ocyake> get osyakes => _ocyakes;
+  List<Ocyake> _ocyakes = [];
 
-class _OcyakeCard extends ViewModelWidget<AlcoholListViewModel> {
-  final Ocyake ocyake;
-  _OcyakeCard({this.ocyake});
-
-  final style = StyleService();
-
-  @override
-  Widget build(BuildContext context, AlcoholListViewModel model) {
-    final screenSize = MediaQuery.of(context).size;
-    return Container(
-      padding: EdgeInsets.all(16),
-      child: SlimyCard(
-        color: Colors.white,
-        width: screenSize.width * 0.8,
-        borderRadius: 10,
-        topCardWidget: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            if (ocyake.imageUrl != null) Image.network(ocyake.imageUrl),
-            SizedBox(height: 14),
-            Text(ocyake.name, style: style.cardTitle),
-            SizedBox(height: 28),
-          ],
-        ),
-        bottomCardWidget: Column(
-          children: [
-            _Details(ocyake: ocyake),
-            Divider(thickness: 2),
-            // _CommentTimeLine(comments: ocyake.comments)
-          ],
-        ),
-        slimeEnabled: true,
-      ),
-    );
-  }
-}
-
-class _Details extends ViewModelWidget<AlcoholListViewModel> {
-  final Ocyake ocyake;
-  _Details({this.ocyake});
-
-  final style = StyleService();
-  @override
-  Widget build(BuildContext context, AlcoholListViewModel model) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-      children: [
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text('品目', style: style.cardSubTitle),
-            Text('度数'.toString(), style: style.cardSubTitle),
-            Text('原産国', style: style.cardSubTitle)
-          ],
-        ),
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(ocyake.type, style: style.cardSubText),
-            Text('${ocyake.alcohol.toString()}度', style: style.cardSubText),
-            Text(ocyake.madeIn, style: style.cardSubText)
-          ],
-        )
-      ],
-    );
-  }
-}
-
-class _CommentTimeLine extends ViewModelWidget<AlcoholListViewModel> {
-  final List<Comment> comments;
-  _CommentTimeLine({this.comments});
-
-  @override
-  Widget build(BuildContext context, AlcoholListViewModel model) {
-    return ListView.builder(
-        itemCount: comments.length,
-        itemBuilder: (context, index) =>
-            Row(children: [Text('emoji'), Text(comments[index].content)]));
-  }
+  List<Ocyake> _dummyData = [
+    Ocyake(
+        name: 'ブラックニッカ',
+        type: 'ウイスキー',
+        alcohol: 37,
+        madeIn: '日本',
+        likes: 1,
+        imageUrl:
+            'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRAoctK6ARFsOmMtDLq9lLj8bIP6hzsI6Ro_eNldR8IQgr6nynAA65B0swMSYqUUWhxpG8Al9E1&usqp=CAc',
+        comments: [Comment(postedAt: DateTime.now(), content: '不味すぎワロタ')]),
+    Ocyake(
+        name: 'ブラックニッカ',
+        type: 'ウイスキー',
+        alcohol: 37,
+        madeIn: '日本',
+        likes: 1,
+        imageUrl:
+            'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRAoctK6ARFsOmMtDLq9lLj8bIP6hzsI6Ro_eNldR8IQgr6nynAA65B0swMSYqUUWhxpG8Al9E1&usqp=CAc',
+        comments: [Comment(postedAt: DateTime.now(), content: '不味すぎワロタ')])
+  ];
 }
