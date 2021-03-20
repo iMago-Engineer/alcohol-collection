@@ -12,8 +12,10 @@ import 'package:alcohol_collection/services/navigation.dart';
 import 'package:alcohol_collection/ui/root/root_viewmodel.dart';
 import 'package:alcohol_collection/ui/root/root_view.dart';
 
+import 'alcohol_list_viewmodel.dart';
+
 class CameraButton extends StatelessWidget {
-  final RootViewModel model;
+  final AlcoholListViewModel model;
   CameraButton({this.model});
 
   @override
@@ -38,7 +40,7 @@ class CameraButton extends StatelessWidget {
   }
 }
 
-Future showImagePickerDialog(context, RootViewModel model) {
+Future showImagePickerDialog(context, AlcoholListViewModel model) {
   return showDialog(
     context: context,
     builder: (context) {
@@ -65,7 +67,7 @@ Future getImageFromGalleryOrCamera(source) async {
   return await picker.getImage(source: source, imageQuality: 30);
 }
 
-Future imageFunction(String type, RootViewModel model) async {
+Future imageFunction(String type, AlcoholListViewModel model) async {
   final _navigator = servicesLocator<NavigationService>();
 
   final file = (type == 'gallery')
@@ -74,7 +76,6 @@ Future imageFunction(String type, RootViewModel model) async {
 
   // to Loading Screen
   _navigator.pop();
-  model.setBusyToRootViewModel();
 
   // Firebase に送る処理
   // TODO: FixPATH

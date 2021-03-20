@@ -1,5 +1,4 @@
 import 'package:alcohol_collection/ui/alcohol_list/alcohol_list_view.dart';
-import 'package:alcohol_collection/ui/root/camera_button.dart';
 import 'package:alcohol_collection/ui/root/root_viewmodel.dart';
 import 'package:alcohol_collection/shared/loading.dart';
 import 'package:flutter/material.dart';
@@ -15,9 +14,6 @@ class RootView extends StatelessWidget {
           ? Loading()
           : Scaffold(
               body: Scaffold(body: AlcoholListView()),
-              floatingActionButtonLocation:
-                  FloatingActionButtonLocation.endDocked,
-              floatingActionButton: CameraButton(model: model),
             ),
     );
   }
