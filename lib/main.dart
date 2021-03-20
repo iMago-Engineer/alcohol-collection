@@ -1,6 +1,11 @@
+import 'package:alcohol_correction/service/navigation.dart';
+import 'package:alcohol_correction/service_locator.dart';
+import 'package:alcohol_correction/ui/root/root_view.dart';
+import 'package:alcohol_correction/ui/splash/splash_view.dart';
 import 'package:flutter/material.dart';
 
 void main() {
+  setupServiceLocator();
   runApp(MyApp());
 }
 
@@ -8,8 +13,8 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final appTheme = ThemeData(
-      primaryColor: Color(0xff6DD86),
-      accentColor: Color(0xff405E79),
+      primaryColor: Color(0xFF6DDA86),
+      accentColor: Color(0xFF405E79),
       visualDensity: VisualDensity.adaptivePlatformDensity,
     );
 
@@ -17,12 +22,9 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: appTheme,
       title: 'alcohol collection',
-      // navigatorKey: servicesLocator<NavigationService>().navigatorKey,
-      // navigatorObservers: [
-      //   servicesLocator<AnalyticsService>().getAnalyticsObserver()
-      // ],
-      // onGenerateRoute: NavigationService.generateRoute,
-      // initialRoute: StartUpView.routeName,
+      navigatorKey: servicesLocator<NavigationService>().navigatorKey,
+      onGenerateRoute: NavigationService.generateRoute,
+      initialRoute: SplashView.routeName,
     );
     return materialApp;
   }

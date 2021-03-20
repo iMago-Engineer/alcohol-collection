@@ -13,6 +13,7 @@ dependencies:
   stacked: ^1.9.5
   slimy_card: ^1.0.4
   timelines: ^0.0.2+1
+  get_it: ^5.0.6
 
 dev_dependencies:
   flutter_test:
