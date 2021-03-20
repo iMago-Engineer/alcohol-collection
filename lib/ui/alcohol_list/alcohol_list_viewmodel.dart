@@ -5,6 +5,7 @@ import 'package:alcohol_collection/models/ocyake.dart';
 import 'package:alcohol_collection/services/firestore.dart';
 import 'package:alcohol_collection/service_locator.dart';
 import 'package:alcohol_collection/services/navigation.dart';
+import 'package:alcohol_collection/services/snackbar.dart';
 import 'package:alcohol_collection/ui/root/root_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_emoji/flutter_emoji.dart';
@@ -57,16 +58,21 @@ class AlcoholListViewModel extends BaseViewModel {
   }
 
   Future<void> sendComment(Ocyake ocyake) async {
-    final draftComment = Comment(
-      postedAt: DateTime.now(),
-      content: _commentInput,
-    );
+    if (_commentInput == '') {
+      SnackbarService.showSnackBar(
+          content: 'テキストを入力してください', backgroundColor: Colors.redAccent);
+    } else {
+      final draftComment = Comment(
+        postedAt: DateTime.now(),
+        content: _commentInput,
+      );
 
-    await servicesLocator<FirestoreService>()
-        .postOcyakeComment(ocyake, draftComment);
+      await servicesLocator<FirestoreService>()
+          .postOcyakeComment(ocyake, draftComment);
 
-    await servicesLocator<NavigationService>()
-        .pushAndReplace(routeName: RootView.routeName);
+      await servicesLocator<NavigationService>()
+          .pushAndReplace(routeName: RootView.routeName);
+    }
   }
 
   // List _shuffle(List items) {
