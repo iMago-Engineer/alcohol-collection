@@ -17,6 +17,13 @@ class Comment {
     );
   }
 
+  Map<String, dynamic> toFirestoreDocData() {
+    return {
+      'postedAt': Timestamp.fromDate(postedAt),
+      'content': content,
+    };
+  }
+
   @override
   String toString() =>
       '{ Comment; docId: $docId, postedAt: $postedAt, content: $content }';
