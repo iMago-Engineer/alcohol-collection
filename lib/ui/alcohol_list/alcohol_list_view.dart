@@ -53,7 +53,7 @@ class _OcyakeCard extends ViewModelWidget<AlcoholListViewModel> {
   Widget build(BuildContext context, AlcoholListViewModel model) {
     final screenSize = MediaQuery.of(context).size;
 
-    final double _bottomCardHeight = 150.0 + 100.0 * ocyake.comments.length;
+    final double _bottomCardHeight = 200.0 + 100.0 * ocyake.comments.length;
 
     return Container(
       padding: EdgeInsets.all(16),
@@ -64,7 +64,7 @@ class _OcyakeCard extends ViewModelWidget<AlcoholListViewModel> {
         topCardWidget: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            // Image.network(ocyake.imageUrl),
+            if (ocyake.imageUrl.isNotEmpty) Image.network(ocyake.imageUrl),
             Text(ocyake.name, style: style.cardTitle),
           ],
         ),
@@ -75,7 +75,8 @@ class _OcyakeCard extends ViewModelWidget<AlcoholListViewModel> {
             SizedBox(height: 8),
             _RatingBar(ocyake: ocyake, rate: ocyake.likes.toDouble()),
             Divider(thickness: 2),
-            _CommentTimeLine(comments: ocyake.comments)
+            _CommentTimeLine(comments: ocyake.comments),
+            _CommentInputForm(ocyake: ocyake),
           ],
         ),
         slimeEnabled: true,
@@ -186,6 +187,57 @@ class _CommentTimeLine extends ViewModelWidget<AlcoholListViewModel> {
             ),
           ),
       ]),
+    );
+  }
+}
+
+class _CommentInputForm extends ViewModelWidget<AlcoholListViewModel> {
+  final Ocyake ocyake;
+
+  const _CommentInputForm({Key key, this.ocyake}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context, AlcoholListViewModel model) {
+    return Row(
+      children: [_CommentInputArea(), _PostCommentButton(ocyake: ocyake)],
+    );
+  }
+}
+
+class _CommentInputArea extends ViewModelWidget<AlcoholListViewModel> {
+  @override
+  Widget build(BuildContext context, AlcoholListViewModel model) {
+    return Container(
+      constraints: BoxConstraints(
+        maxWidth: MediaQuery.of(context).size.width * 0.55,
+      ),
+      margin: EdgeInsets.fromLTRB(16, 0, 4, 0),
+      padding: EdgeInsets.symmetric(horizontal: 8),
+      decoration: BoxDecoration(
+          border: Border.all(color: Colors.grey),
+          borderRadius: BorderRadius.circular(4)),
+      child: TextField(
+        maxLines: 2,
+        onChanged: model.setCommentInput,
+        decoration: InputDecoration(
+            border: InputBorder.none, hintText: 'Enter a search term'),
+      ),
+    );
+  }
+}
+
+class _PostCommentButton extends ViewModelWidget<AlcoholListViewModel> {
+  final Ocyake ocyake;
+
+  const _PostCommentButton({Key key, this.ocyake}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context, AlcoholListViewModel model) {
+    return IconButton(
+      icon: Icon(Icons.send),
+      onPressed: () async {
+        await model.sendComment(ocyake);
+      },
     );
   }
 }
