@@ -23,6 +23,7 @@ dependencies:
   slimy_card: ^1.0.4
   get_it: ^5.0.6
   flutter_spinkit: "^4.1.2"
+  flutter_emoji: ^2.2.1+1
 
 dev_dependencies:
   flutter_test:

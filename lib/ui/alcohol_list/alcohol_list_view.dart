@@ -51,6 +51,9 @@ class _OcyakeCard extends ViewModelWidget<AlcoholListViewModel> {
   @override
   Widget build(BuildContext context, AlcoholListViewModel model) {
     final screenSize = MediaQuery.of(context).size;
+
+    final double _bottomCardHeight = 150.0 + 100.0 * ocyake.comments.length;
+
     return Container(
       padding: EdgeInsets.all(16),
       child: SlimyCard(
@@ -61,15 +64,15 @@ class _OcyakeCard extends ViewModelWidget<AlcoholListViewModel> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             // Image.network(ocyake.imageUrl),
-            // SizedBox(height: 14),
             Text(ocyake.name, style: style.cardTitle),
-            SizedBox(height: 28),
           ],
         ),
+        bottomCardHeight: _bottomCardHeight,
         bottomCardWidget: Column(
           children: [
             _Details(ocyake: ocyake),
             Divider(thickness: 2),
+            _CommentTimeLine(comments: ocyake.comments)
           ],
         ),
         slimeEnabled: true,
@@ -91,17 +94,25 @@ class _Details extends ViewModelWidget<AlcoholListViewModel> {
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            SizedBox(height: 8),
             Text('品目', style: style.cardSubTitle),
+            SizedBox(height: 8),
             Text('度数'.toString(), style: style.cardSubTitle),
-            Text('原産国', style: style.cardSubTitle)
+            SizedBox(height: 8),
+            Text('原産国', style: style.cardSubTitle),
+            SizedBox(height: 8)
           ],
         ),
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            SizedBox(height: 8),
             Text(ocyake.type, style: style.cardSubText),
+            SizedBox(height: 8),
             Text('${ocyake.alcohol.toString()}度', style: style.cardSubText),
-            Text(ocyake.madeIn, style: style.cardSubText)
+            SizedBox(height: 8),
+            Text(ocyake.madeIn, style: style.cardSubText),
+            SizedBox(height: 8),
           ],
         )
       ],
@@ -115,9 +126,41 @@ class _CommentTimeLine extends ViewModelWidget<AlcoholListViewModel> {
 
   @override
   Widget build(BuildContext context, AlcoholListViewModel model) {
-    return ListView.builder(
-        itemCount: comments.length,
-        itemBuilder: (context, index) =>
-            Row(children: [Text('emoji'), Text(comments[index].content)]));
+    return Container(
+      padding: EdgeInsets.symmetric(horizontal: 16),
+      child: Column(children: [
+        for (var i = 0; i < comments.length; i++)
+          Container(
+            padding: EdgeInsets.symmetric(vertical: 4),
+            child: Column(
+              children: [
+                Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
+                  Text(
+                    model.emoji,
+                    style: TextStyle(fontSize: 28),
+                  ),
+                  SizedBox(width: 16),
+                  Flexible(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          comments[i].content,
+                          style: TextStyle(fontSize: 14),
+                        ),
+                        Text(comments[i].postedAt.toString(),
+                            style: TextStyle(color: Colors.grey))
+                      ],
+                    ),
+                  ),
+                ]),
+                SizedBox(height: 4),
+                Divider(thickness: 1)
+              ],
+            ),
+          ),
+      ]),
+    );
   }
 }
