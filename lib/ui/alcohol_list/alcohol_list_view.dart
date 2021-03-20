@@ -53,7 +53,7 @@ class _OcyakeCard extends ViewModelWidget<AlcoholListViewModel> {
   Widget build(BuildContext context, AlcoholListViewModel model) {
     final screenSize = MediaQuery.of(context).size;
 
-    final double _bottomCardHeight = 200.0 + 100.0 * ocyake.comments.length;
+    final double _bottomCardHeight = 250.0 + 100.0 * ocyake.comments.length;
 
     return Container(
       padding: EdgeInsets.all(16),
@@ -199,6 +199,7 @@ class _CommentInputForm extends ViewModelWidget<AlcoholListViewModel> {
   @override
   Widget build(BuildContext context, AlcoholListViewModel model) {
     return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
       children: [_CommentInputArea(), _PostCommentButton(ocyake: ocyake)],
     );
   }
@@ -211,8 +212,8 @@ class _CommentInputArea extends ViewModelWidget<AlcoholListViewModel> {
       constraints: BoxConstraints(
         maxWidth: MediaQuery.of(context).size.width * 0.55,
       ),
-      margin: EdgeInsets.fromLTRB(16, 0, 4, 0),
-      padding: EdgeInsets.symmetric(horizontal: 8),
+      margin: EdgeInsets.only(left: 20),
+      padding: EdgeInsets.symmetric(horizontal: 16),
       decoration: BoxDecoration(
           border: Border.all(color: Colors.grey),
           borderRadius: BorderRadius.circular(4)),
