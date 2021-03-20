@@ -9,14 +9,27 @@ class Ocyake {
   List<Comment> comments;
   String imageUrl;
 
-  Ocyake(
-      {this.name,
-      this.type,
-      this.alcohol,
-      this.madeIn,
-      this.likes,
-      this.comments,
-      this.imageUrl});
+  Ocyake({
+    this.name,
+    this.type,
+    this.alcohol,
+    this.madeIn,
+    this.likes,
+    this.comments,
+    this.imageUrl,
+  });
+
+  factory Ocyake.fromFirestore(Map<String, dynamic> firestoreDoc) {
+    return Ocyake(
+      name: firestoreDoc['name'] as String,
+      type: firestoreDoc['type'] as String,
+      alcohol: firestoreDoc['alcohol'] as int,
+      madeIn: firestoreDoc['madeIn'] as String,
+      likes: firestoreDoc['likes'] as int,
+      comments: parseIntoComments(firestoreDoc['comments'] as List<dynamic>),
+      imageUrl: firestoreDoc['imageUrl'] as String,
+    );
+  }
 
   @override
   String toString() =>
