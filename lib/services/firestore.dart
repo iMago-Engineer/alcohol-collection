@@ -42,4 +42,18 @@ class FirestoreService {
 
     await likesDoc.update(dataToUpdate);
   }
+
+  Future<bool> ocyatePhotoTakenBefore(Ocyake ocyake) async {
+    final ocyakeDocs =
+        (await ocyakesCollection.where('name', isEqualTo: ocyake.name).get())
+            .docs;
+
+    return ocyakeDocs.length >= 1;
+  }
+
+  Future<void> incrementNumberOfOcyakePhotosTaken(Ocyake ocyake) async {
+    final ocyakeDoc = ocyakesCollection.doc(ocyake.docId);
+
+    await ocyakeDoc.update({'numberOfPhotoTaken': FieldValue.increment(1)});
+  }
 }

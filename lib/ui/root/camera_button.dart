@@ -66,17 +66,11 @@ Future getImageFromGalleryOrCamera(source) async {
 }
 
 Future imageFunction(String type, RootViewModel model) async {
-  final _line_ocr_api = servicesLocator<LINEOCRService>();
-  final _process_api = servicesLocator<ProcessAPIService>();
-  final _firebase_api = servicesLocator<FirebaseAPIService>();
   final _navigator = servicesLocator<NavigationService>();
 
-  var file;
-  if (type == "gallery") {
-    file = await getImageFromGalleryOrCamera(ImageSource.gallery);
-  } else {
-    file = await getImageFromGalleryOrCamera(ImageSource.camera);
-  }
+  final file = (type == 'gallery')
+      ? await getImageFromGalleryOrCamera(ImageSource.gallery)
+      : await getImageFromGalleryOrCamera(ImageSource.camera);
 
   // to Loading Screen
   _navigator.pop();
@@ -84,37 +78,49 @@ Future imageFunction(String type, RootViewModel model) async {
 
   // Firebase に送る処理
   // TODO: FixPATH
-  final imageUrl = await _firebase_api.uploadImage("path/", File(file.path));
+  final imageUrl = await servicesLocator<FirebaseAPIService>()
+      .uploadImage("path/", File(file.path));
   print(imageUrl);
 
   // LINEOCR に送る処理
   // return response from LINEOCR
-  final line_ocr_response = await _line_ocr_api.requestToLINEOcr(imageUrl);
+  final lineOcrResponse =
+      await servicesLocator<LINEOCRService>().requestToLINEOcr(imageUrl);
 
   // LINEOCR の response を処理する
-  // return (type, alcohol, madeIn, serch_term);
-  final ocyake_details = _process_api.inferBasicData(line_ocr_response.body);
-  print(ocyake_details);
+  // return [type, alcohol, madeIn, serch_term];
+  final ocyakeDetails =
+      servicesLocator<ProcessAPIService>().inferBasicData(lineOcrResponse.body);
+  print(ocyakeDetails);
 
-  int alcohol_length = ocyake_details[1].length;
-  ocyake_details[1] = ocyake_details[1].substring(0, alcohol_length - 1);
-  int alcohol_int = int.parse(ocyake_details[1]);
+  int alcoholLength = ocyakeDetails[1].length;
+  ocyakeDetails[1] = ocyakeDetails[1].substring(0, alcoholLength - 1);
+  int alcoholInt = int.parse(ocyakeDetails[1]);
 
   // Ocyake型に変換
-  final new_ocyake = new Ocyake(
+  final newOcyake = new Ocyake(
     docId: "",
-    name: ocyake_details[3],
-    type: ocyake_details[0],
-    alcohol: alcohol_int,
-    madeIn: ocyake_details[2],
+    name: ocyakeDetails[3],
+    type: ocyakeDetails[0],
+    alcohol: alcoholInt,
+    madeIn: ocyakeDetails[2],
     likes: 0,
     comments: [],
     imageUrl: "",
   );
-  print(new_ocyake);
+  print(newOcyake);
 
-  // firestore に保存
-  await servicesLocator<FirestoreService>().postOcyake(new_ocyake);
+  final _firestore = servicesLocator<FirestoreService>();
+
+  // firestore に保存されているかどうかを確認する
+  final photoTakenBefore = await _firestore.ocyatePhotoTakenBefore(newOcyake);
+  if (photoTakenBefore) {
+    // numberOfOcyakePhotosTaken を増やす
+    await _firestore.incrementNumberOfOcyakePhotosTaken(newOcyake);
+  } else {
+    // firestore に保存
+    await _firestore.postOcyake(newOcyake);
+  }
 
   // Navigation to Root
   // データ取得しなおすために？？
