@@ -19,15 +19,15 @@ class Ocyake {
     this.imageUrl,
   });
 
-  factory Ocyake.fromFirestore(Map<String, dynamic> firestoreDoc) {
+  factory Ocyake.fromFirestore(Map<String, dynamic> docData) {
     return Ocyake(
-      name: firestoreDoc['name'] as String,
-      type: firestoreDoc['type'] as String,
-      alcohol: firestoreDoc['alcohol'] as int,
-      madeIn: firestoreDoc['madeIn'] as String,
-      likes: firestoreDoc['likes'] as int,
-      comments: parseIntoComments(firestoreDoc['comments'] as List<dynamic>),
-      imageUrl: firestoreDoc['imageUrl'] as String,
+      name: docData['name'] as String,
+      type: docData['type'] as String,
+      alcohol: docData['alcohol'] as int,
+      madeIn: docData['madeIn'] as String,
+      likes: docData['likes'] as int,
+      comments: parseIntoComments(docData['comments'] as List<dynamic>),
+      imageUrl: docData['imageUrl'] as String,
     );
   }
 

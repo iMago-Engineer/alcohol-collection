@@ -1,13 +1,15 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 class Comment {
   DateTime postedAt;
   String content;
 
   Comment({this.postedAt, this.content});
 
-  factory Comment.fromFirestore(Map<String, dynamic> firestoreDoc) {
+  factory Comment.fromFirestore(Map<String, dynamic> docData) {
     return Comment(
-      postedAt: firestoreDoc['postedAt'] as DateTime,
-      content: firestoreDoc['content'] as String,
+      postedAt: (docData['postedAt'] as Timestamp).toDate(),
+      content: docData['content'] as String,
     );
   }
 
