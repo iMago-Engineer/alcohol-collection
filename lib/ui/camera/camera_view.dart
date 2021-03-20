@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
+import 'package:flutter/cupertino.dart';
 
 import 'camera_viewmodel.dart';
 
@@ -17,7 +18,35 @@ class _CameraScreen extends ViewModelWidget<CameraViewModel> {
   @override
   Widget build(BuildContext context, CameraViewModel model) {
     return Container(
-      child: Text('camera'),
+      child: Scaffold(
+        body: Text('camera'),
+        floatingActionButton: FloatingActionButton(
+          onPressed: () {
+            showImagePickerDialog(context, model);
+          },
+          child: Icon(Icons.camera),
+        ),
+      ),
     );
   }
+}
+
+Future showImagePickerDialog(context, CameraViewModel model) {
+  return showDialog(
+    context: context,
+    builder: (context) {
+      return CupertinoAlertDialog(
+        title: Text("おちゃけ PIC"),
+        actions: <Widget>[
+          CupertinoDialogAction(
+            child: Text("画像選択"),
+            onPressed: () => model.imageFunction("gallery"),
+          ),
+          CupertinoDialogAction(
+              child: Text("カメラ"),
+              onPressed: () => model.imageFunction("camera")),
+        ],
+      );
+    },
+  );
 }
