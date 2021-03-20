@@ -1,4 +1,4 @@
-import 'package:alcohol_correction/models/comment.dart';
+import 'package:alcohol_collection/models/comment.dart';
 
 class Ocyake {
   String name;

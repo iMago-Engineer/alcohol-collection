@@ -1,7 +1,6 @@
-import 'package:alcohol_correction/service/navigation.dart';
-import 'package:alcohol_correction/service_locator.dart';
-import 'package:alcohol_correction/ui/root/root_view.dart';
-import 'package:alcohol_correction/ui/splash/splash_view.dart';
+import 'package:alcohol_collection/service/navigation.dart';
+import 'package:alcohol_collection/service_locator.dart';
+import 'package:alcohol_collection/ui/splash/splash_view.dart';
 import 'package:flutter/material.dart';
 
 void main() {

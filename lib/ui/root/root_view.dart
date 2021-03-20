@@ -1,4 +1,4 @@
-import 'package:alcohol_correction/ui/root/root_viewmodel.dart';
+import 'package:alcohol_collection/ui/root/root_viewmodel.dart';
 import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
 

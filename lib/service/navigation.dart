@@ -1,7 +1,7 @@
-import 'package:alcohol_correction/ui/alcohol_list/alcohol_list_viewmodel.dart';
-import 'package:alcohol_correction/ui/camera/camera_view.dart';
-import 'package:alcohol_correction/ui/root/root_view.dart';
-import 'package:alcohol_correction/ui/splash/splash_view.dart';
+import 'package:alcohol_collection/ui/alcohol_list/alcohol_list_viewmodel.dart';
+import 'package:alcohol_collection/ui/camera/camera_view.dart';
+import 'package:alcohol_collection/ui/root/root_view.dart';
+import 'package:alcohol_collection/ui/splash/splash_view.dart';
 import 'package:flutter/material.dart';
 
 class NavigationService {
