@@ -59,12 +59,17 @@ class _OcyakeCard extends ViewModelWidget<AlcoholListViewModel> {
       padding: EdgeInsets.all(16),
       child: SlimyCard(
         color: Colors.white,
+        topCardHeight: screenSize.width * 0.8,
         width: screenSize.width * 0.8,
         borderRadius: 10,
         topCardWidget: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            if (ocyake.imageUrl.isNotEmpty) Image.network(ocyake.imageUrl),
+            if (ocyake.imageUrl != null)
+              Container(
+                  height: screenSize.width * 0.5,
+                  child: Image.network(ocyake.imageUrl)),
+            SizedBox(height: 8),
             Text(ocyake.name, style: style.cardTitle),
           ],
         ),

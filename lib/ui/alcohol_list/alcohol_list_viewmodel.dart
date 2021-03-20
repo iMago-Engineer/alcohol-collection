@@ -1,7 +1,9 @@
+import 'dart:convert';
 import 'dart:math';
 
 import 'package:alcohol_collection/models/comment.dart';
 import 'package:alcohol_collection/models/ocyake.dart';
+import 'package:alcohol_collection/services/api.dart';
 import 'package:alcohol_collection/services/firestore.dart';
 import 'package:alcohol_collection/service_locator.dart';
 import 'package:alcohol_collection/services/navigation.dart';
@@ -17,7 +19,10 @@ class AlcoholListViewModel extends BaseViewModel {
     setBusy(true);
 
     _ocyakes = await _firestore.fetchOcyakes();
-
+    for (var i = 0; i < _ocyakes.length; i++) {
+      var query = _ocyakes[i].name;
+      _ocyakes[i].imageUrl = await APIService().getImageFromGoogle(query);
+    }
     setBusy(false);
     notifyListeners();
   }
@@ -25,19 +30,18 @@ class AlcoholListViewModel extends BaseViewModel {
   List<Ocyake> get osyakes => _ocyakes;
   List<Ocyake> _ocyakes = [];
 
-  var parser = EmojiParser();
-
-  get emoji => parser.emojify(':beers:');
-
-  String formatDateTime(String dateTime) {
-    var splittedDateTime = dateTime.split(':');
-    return splittedDateTime[0] + ':' + splittedDateTime[1];
-  }
+  /// お気に入り
 
   void updateRate(Ocyake ocyake, double rating) {
     int newRate = rating.toInt();
     _firestore.updateRate(ocyake, newRate);
   }
+
+  /// コメント入力部
+
+  var parser = EmojiParser();
+
+  get emoji => parser.emojify(':beers:');
 
   // static const List<String> emojiShortNames = [
   //   'sparkles',
@@ -48,6 +52,22 @@ class AlcoholListViewModel extends BaseViewModel {
   //   'sake',
   //   'zany_face'
   // ];
+
+  // List _shuffle(List items) {
+  //   var random = new Random();
+  //   for (var i = items.length - 1; i > 0; i--) {
+  //     var n = random.nextInt(i + 1);
+  //     var temp = items[i];
+  //     items[i] = items[n];
+  //     items[n] = temp;
+  //   }
+  //   return items;
+  // }
+
+  String formatDateTime(String dateTime) {
+    var splittedDateTime = dateTime.split(':');
+    return splittedDateTime[0] + ':' + splittedDateTime[1];
+  }
 
   String _commentInput = '';
 
@@ -75,14 +95,6 @@ class AlcoholListViewModel extends BaseViewModel {
     }
   }
 
-  // List _shuffle(List items) {
-  //   var random = new Random();
-  //   for (var i = items.length - 1; i > 0; i--) {
-  //     var n = random.nextInt(i + 1);
-  //     var temp = items[i];
-  //     items[i] = items[n];
-  //     items[n] = temp;
-  //   }
-  //   return items;
-  // }
+  /// 画像取得
+
 }
