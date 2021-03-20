@@ -4,6 +4,7 @@ import 'package:stacked/stacked.dart';
 import 'alcohole_list_view.dart';
 
 class AlcoholListView extends StatelessWidget {
+  static const routeName = '/alcohol_list';
   @override
   Widget build(BuildContext context) {
     return ViewModelBuilder<AlcoholListViewModel>.reactive(

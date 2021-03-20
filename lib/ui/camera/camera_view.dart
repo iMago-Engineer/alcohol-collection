@@ -4,6 +4,7 @@ import 'package:stacked/stacked.dart';
 import 'camera_viewmodel.dart';
 
 class CameraView extends StatelessWidget {
+  static const routeName = '/camera';
   @override
   Widget build(BuildContext context) {
     return ViewModelBuilder<CameraViewModel>.reactive(

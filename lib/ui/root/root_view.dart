@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
 
 class RootView extends StatelessWidget {
+  static const routeName = '/root';
   @override
   Widget build(BuildContext context) {
     return ViewModelBuilder<RootViewModel>.reactive(
