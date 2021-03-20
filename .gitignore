@@ -39,3 +39,7 @@ app.*.symbols
 
 # Obfuscation related
 app.*.map.json
+
+# firebase 環境変数
+ios/Runner/GoogleService-Info.plist
+
