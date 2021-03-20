@@ -10,6 +10,8 @@ class Ocyake {
   int likes;
   List<Comment> comments;
   String imageUrl;
+  // 出会った回数 (写真を取ること = 出会うこと)
+  int numberOfPhotosTaken;
 
   Ocyake({
     this.docId,
@@ -20,6 +22,7 @@ class Ocyake {
     this.likes,
     this.comments,
     this.imageUrl,
+    this.numberOfPhotosTaken,
   });
 
   factory Ocyake.fromFirestore(
@@ -35,6 +38,7 @@ class Ocyake {
       likes: docData['likes'] as int ?? 1,
       comments: parseIntoComments(commentDocs),
       imageUrl: docData['imageUrl'] as String ?? '',
+      numberOfPhotosTaken: docData['numberOfPhotosTaken'] as int ?? 1,
     );
   }
 
@@ -52,5 +56,5 @@ class Ocyake {
 
   @override
   String toString() =>
-      '{ Ocyake; docId: $docId, name: $name, type: $type, alcohol: $alcohol, madeIn: $madeIn, likes: $likes, comments: $comments, imageUrl: $imageUrl }';
+      '{ Ocyake; docId: $docId, name: $name, type: $type, alcohol: $alcohol, madeIn: $madeIn, likes: $likes, comments: $comments, imageUrl: $imageUrl, numberOfPhotosTaken: $numberOfPhotosTaken }';
 }
