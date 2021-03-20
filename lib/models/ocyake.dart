@@ -27,14 +27,14 @@ class Ocyake {
     final docData = doc.data();
 
     return Ocyake(
-      docId: doc.id,
-      name: docData['name'] as String,
-      type: docData['type'] as String,
-      alcohol: docData['alcohol'] as int,
-      madeIn: docData['madeIn'] as String,
-      likes: docData['likes'] as int,
+      docId: doc.id ?? '',
+      name: docData['name'] as String ?? '',
+      type: docData['type'] as String ?? '',
+      alcohol: docData['alcohol'] as int ?? 0,
+      madeIn: docData['madeIn'] as String ?? '',
+      likes: docData['likes'] as int ?? 1,
       comments: parseIntoComments(commentDocs),
-      imageUrl: docData['imageUrl'] as String,
+      imageUrl: docData['imageUrl'] as String ?? '',
     );
   }
 

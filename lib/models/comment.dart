@@ -11,9 +11,9 @@ class Comment {
     final docData = doc.data();
 
     return Comment(
-      docId: doc.id,
-      postedAt: (docData['postedAt'] as Timestamp).toDate(),
-      content: docData['content'] as String,
+      docId: doc.id ?? '',
+      postedAt: (docData['postedAt'] as Timestamp).toDate() ?? DateTime.now(),
+      content: docData['content'] as String ?? '',
     );
   }
 
@@ -30,6 +30,8 @@ class Comment {
 }
 
 List<Comment> parseIntoComments(List<QueryDocumentSnapshot> firestoreDocList) {
+  if (firestoreDocList.length <= 0) return [];
+
   return firestoreDocList
       .map((firestoreDoc) => Comment.fromFirestore(firestoreDoc))
       .toList();
