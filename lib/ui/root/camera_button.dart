@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-
+import 'package:flutter/cupertino.dart';
 import 'dart:io';
 import 'package:image_picker/image_picker.dart';
 import 'package:alcohol_collection/models/ocyake.dart';
@@ -8,9 +8,14 @@ import 'package:alcohol_collection/services/firebase_api.dart';
 import 'package:alcohol_collection/services/line_ocr_api.dart';
 import 'package:alcohol_collection/services/process_api_response.dart';
 import 'package:alcohol_collection/services/firestore.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:alcohol_collection/services/navigation.dart';
+import 'package:alcohol_collection/ui/root/root_viewmodel.dart';
+import 'package:alcohol_collection/ui/root/root_view.dart';
 
 class CameraButton extends StatelessWidget {
+  final RootViewModel model;
+  CameraButton({this.model});
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -21,7 +26,7 @@ class CameraButton extends StatelessWidget {
         child: FloatingActionButton(
           backgroundColor: Theme.of(context).primaryColor,
           onPressed: () {
-            showImagePickerDialog(context);
+            showImagePickerDialog(context, model);
           },
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -33,7 +38,7 @@ class CameraButton extends StatelessWidget {
   }
 }
 
-Future showImagePickerDialog(context) {
+Future showImagePickerDialog(context, RootViewModel model) {
   return showDialog(
     context: context,
     builder: (context) {
@@ -42,10 +47,11 @@ Future showImagePickerDialog(context) {
         actions: <Widget>[
           CupertinoDialogAction(
             child: Text("画像選択"),
-            onPressed: () => imageFunction("gallery"),
+            onPressed: () => imageFunction("gallery", model),
           ),
           CupertinoDialogAction(
-              child: Text("カメラ"), onPressed: () => imageFunction("camera")),
+              child: Text("カメラ"),
+              onPressed: () => imageFunction("camera", model)),
         ],
       );
     },
@@ -59,10 +65,11 @@ Future getImageFromGalleryOrCamera(source) async {
   return await picker.getImage(source: source, imageQuality: 30);
 }
 
-Future imageFunction(String type) async {
+Future imageFunction(String type, RootViewModel model) async {
   final _line_ocr_api = servicesLocator<LINEOCRService>();
   final _process_api = servicesLocator<ProcessAPIService>();
   final _firebase_api = servicesLocator<FirebaseAPIService>();
+  final _navigator = servicesLocator<NavigationService>();
 
   var file;
   if (type == "gallery") {
@@ -70,6 +77,10 @@ Future imageFunction(String type) async {
   } else {
     file = await getImageFromGalleryOrCamera(ImageSource.camera);
   }
+
+  // to Loading Screen
+  _navigator.pop();
+  model.setBusyToRootViewModel();
 
   // Firebase に送る処理
   // TODO: FixPATH
@@ -104,4 +115,8 @@ Future imageFunction(String type) async {
 
   // firestore に保存
   await servicesLocator<FirestoreService>().postOcyake(new_ocyake);
+
+  // Navigation to Root
+  // データ取得しなおすために？？
+  _navigator.pushNamedAndRemoveUntil(routeName: RootView.routeName);
 }
