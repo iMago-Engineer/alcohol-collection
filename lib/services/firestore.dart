@@ -4,15 +4,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 class FirestoreService {
   final ocyakesCollection = FirebaseFirestore.instance.collection('ocyakes');
 
-  Future<void> test() async {
-    final ocyakesQuerySnapshot = await ocyakesCollection.get();
-    final ocyakesQueryDocumentSnapshot = ocyakesQuerySnapshot.docs;
-
-    for (var ocyakeQueryDocumentSnapshot in ocyakesQueryDocumentSnapshot) {
-      print(Ocyake.fromFirestore(ocyakeQueryDocumentSnapshot.data()));
-    }
-  }
-
   Future<List<Ocyake>> fetchOcyakes() async {
     var ocyakes = <Ocyake>[];
 
