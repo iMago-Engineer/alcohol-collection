@@ -91,7 +91,7 @@ Future<Ocyake> getOcyakeBySendImage(
 
   // to Loading Screen
   _navigator.pop();
-  model.setBusyToAlcoholListViewModel();
+  model.showLoading();
 
   // Firebase に送る処理
   // TODO: FixPATH
@@ -125,7 +125,7 @@ Future<Ocyake> getOcyakeBySendImage(
 
   // set NotBusy
   print("setNotBusyToRootViewModel");
-  model.setNotBusyToAlcoholListViewModel();
+  model.showLoading(show: false);
 
   return newOcyake;
 }
@@ -216,7 +216,7 @@ Future saveOcyake(model, newOcyake) async {
 
   // to Loading Screen
   _navigator.pop();
-  model.setBusyToAlcoholListViewModel();
+  model.showLoading();
 
   // firestore に保存されているかどうかを確認する
   final photoTakenBefore = await _firestore.ocyatePhotoTakenBefore(newOcyake);
