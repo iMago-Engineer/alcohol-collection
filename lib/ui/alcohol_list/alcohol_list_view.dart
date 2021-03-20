@@ -73,9 +73,7 @@ class _OcyakeCard extends ViewModelWidget<AlcoholListViewModel> {
             _Details(ocyake: ocyake),
             Divider(thickness: 2),
             _CommentTimeLine(comments: ocyake.comments),
-            Row(
-              children: [_CommentInputArea(), _PostCommentButton()],
-            ),
+            _CommentInputForm(ocyake: ocyake),
           ],
         ),
         slimeEnabled: true,
@@ -168,19 +166,34 @@ class _CommentTimeLine extends ViewModelWidget<AlcoholListViewModel> {
   }
 }
 
+class _CommentInputForm extends ViewModelWidget<AlcoholListViewModel> {
+  final Ocyake ocyake;
+
+  const _CommentInputForm({Key key, this.ocyake}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context, AlcoholListViewModel model) {
+    return Row(
+      children: [_CommentInputArea(), _PostCommentButton(ocyake: ocyake)],
+    );
+  }
+}
+
 class _CommentInputArea extends ViewModelWidget<AlcoholListViewModel> {
   @override
   Widget build(BuildContext context, AlcoholListViewModel model) {
     return Container(
-      width: 200, // TODO: 後で
+      constraints: BoxConstraints(
+        maxWidth: MediaQuery.of(context).size.width * 0.55,
+      ),
       margin: EdgeInsets.fromLTRB(16, 0, 4, 0),
       padding: EdgeInsets.symmetric(horizontal: 8),
       decoration: BoxDecoration(
           border: Border.all(color: Colors.grey),
           borderRadius: BorderRadius.circular(4)),
       child: TextField(
-        // TODO: 入力を受け取る機能
         maxLines: 2,
+        onChanged: model.setCommentInput,
         decoration: InputDecoration(
             border: InputBorder.none, hintText: 'Enter a search term'),
       ),
@@ -188,15 +201,17 @@ class _CommentInputArea extends ViewModelWidget<AlcoholListViewModel> {
   }
 }
 
-class _PostCommentButton extends StatelessWidget {
-  const _PostCommentButton({Key key}) : super(key: key);
+class _PostCommentButton extends ViewModelWidget<AlcoholListViewModel> {
+  final Ocyake ocyake;
+
+  const _PostCommentButton({Key key, this.ocyake}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, AlcoholListViewModel model) {
     return IconButton(
       icon: Icon(Icons.send),
-      onPressed: () {
-        print('send');
+      onPressed: () async {
+        await model.sendComment(ocyake);
       },
     );
   }
