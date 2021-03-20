@@ -11,8 +11,11 @@ class AlcoholListView extends StatelessWidget {
     return ViewModelBuilder<AlcoholListViewModel>.reactive(
       viewModelBuilder: () => AlcoholListViewModel(),
       onModelReady: (model) => model.loadOcyake(),
-      builder: (context, model, child) =>
-          model.isBusy ? Loading() : Scaffold(body: _AlcoholListScreen()),
+      builder: (context, model, child) => model.isBusy
+          ? Loading()
+          : Scaffold(
+              appBar: AppBar(title: Text('alcohol collection')),
+              body: _AlcoholListScreen()),
     );
   }
 }
@@ -21,7 +24,7 @@ class _AlcoholListScreen extends ViewModelWidget<AlcoholListViewModel> {
   @override
   Widget build(BuildContext context, AlcoholListViewModel model) {
     return Container(
-      child: Text('alcohole list'),
+      child: Center(child: Text('alcohole list')),
     );
   }
 }
