@@ -18,7 +18,7 @@ class LINEOCRService {
       ]
     });
     final headers = {
-      "X-OCR-SECRET": "TEJ2dXpJZnFDZkp2c1FFaldWclB5SUpaRnVGTVJ6Qlo=",
+      "X-OCR-SECRET": "b1JkcGhMZ1dqeW9oQ2tUQlhIbkp4dGtGalFOeG53TWk=",
       "Content-Type": "application/json"
     };
 

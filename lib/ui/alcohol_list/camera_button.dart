@@ -10,6 +10,7 @@ import 'package:alcohol_collection/services/process_api_response.dart';
 import 'package:alcohol_collection/services/style.dart';
 import 'package:alcohol_collection/services/firestore.dart';
 import 'package:alcohol_collection/services/navigation.dart';
+import 'package:alcohol_collection/services/api.dart';
 import 'package:alcohol_collection/ui/root/root_view.dart';
 import 'alcohol_list_viewmodel.dart';
 import '../../models/ocyake.dart';
@@ -51,7 +52,7 @@ Future showImagePickerDialog(context, AlcoholListViewModel model) {
             child: Text("画像選択"),
             onPressed: () async {
               Ocyake new_ocyake =
-                  await getOcyakeBySendImage("camera", context, model);
+                  await getOcyakeBySendImage("gallery", context, model);
 
               /// 確認画面
               confirmDialog(model, new_ocyake);
@@ -126,20 +127,6 @@ Future<Ocyake> getOcyakeBySendImage(
   );
   print(newOcyake);
 
-  final _firestore = servicesLocator<FirestoreService>();
-
-  // firestore に保存されているかどうかを確認する
-  final photoTakenBefore = await _firestore.ocyatePhotoTakenBefore(newOcyake);
-  if (photoTakenBefore) {
-    print("numberOfOcyakePhotosTaken");
-    // numberOfOcyakePhotosTaken を増やす
-    await _firestore.incrementNumberOfOcyakePhotosTaken(newOcyake);
-  } else {
-    print("postOcyake");
-    // firestore に保存
-    await _firestore.postOcyake(newOcyake);
-  }
-
   // set NotBusy
   print("setNotBusyToRootViewModel");
   model.setNotBusyToAlcoholListViewModel();
@@ -203,16 +190,28 @@ Future confirmDialog(model, new_ocyake) {
 }
 
 /// 詳細保存
-Future saveOcyake(model, new_ocyake) {
+Future saveOcyake(model, newOcyake) async {
   final _navigator = servicesLocator<NavigationService>();
-  final _fire_store_api = servicesLocator<FirestoreService>();
+  final _api = servicesLocator<APIService>();
+  final _firestore = servicesLocator<FirestoreService>();
 
   // to Loading Screen
   _navigator.pop();
   model.setBusyToAlcoholListViewModel();
 
-  // firestore に保存
-  _fire_store_api.postOcyake(new_ocyake);
+  // firestore に保存されているかどうかを確認する
+  final photoTakenBefore = await _firestore.ocyatePhotoTakenBefore(newOcyake);
+  if (photoTakenBefore) {
+    print("numberOfOcyakePhotosTaken");
+    // numberOfOcyakePhotosTaken を増やす
+    await _firestore.incrementNumberOfOcyakePhotosTaken(newOcyake);
+  } else {
+    // おちゃけの画像を検索 / URL をセット
+    newOcyake.imageUrl = await _api.getImageFromGoogle(newOcyake.name);
+
+    // firestore に保存
+    _firestore.postOcyake(newOcyake);
+  }
 
   // Navigation to Root
   // データ取得しなおすために？？
