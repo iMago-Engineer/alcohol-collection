@@ -7,6 +7,7 @@ class FirebaseAPIService {
   /// storage に保存
   /// return : imageUrl or null?
   Future<String> uploadImage(String path, File file) async {
+    print("Start: uploadImage");
     final FirebaseStorage storage = FirebaseStorage.instance;
 
     Reference ref = storage.ref('$path');
@@ -15,6 +16,7 @@ class FirebaseAPIService {
     UploadTask uploadTask = ref.putFile(File(file.path), metadata);
 
     final imageUrl = await (await uploadTask).ref.getDownloadURL();
+    print("End: uploadImage");
     return imageUrl;
   }
 }
