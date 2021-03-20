@@ -110,20 +110,16 @@ Future<Ocyake> getOcyakeBySendImage(
       servicesLocator<ProcessAPIService>().inferBasicData(lineOcrResponse.body);
   print(ocyakeDetails);
 
-  int alcoholLength = ocyakeDetails[1].length;
-  ocyakeDetails[1] = ocyakeDetails[1].substring(0, alcoholLength - 1);
-  int alcoholInt = int.parse(ocyakeDetails[1]);
+  String alcoholInString = ocyakeDetails[1];
 
   // Ocyake型に変換
   final newOcyake = new Ocyake(
-    docId: "",
     name: ocyakeDetails[3],
     type: ocyakeDetails[0],
-    alcohol: alcoholInt,
+    alcohol:
+        int.parse(alcoholInString.substring(0, alcoholInString.length - 1)),
     madeIn: ocyakeDetails[2],
     likes: 0,
-    comments: [],
-    imageUrl: "",
   );
   print(newOcyake);
 
@@ -135,7 +131,7 @@ Future<Ocyake> getOcyakeBySendImage(
 }
 
 /// 確認画面 -> 戻る or データ保存
-Future confirmDialog(model, new_ocyake) {
+Future confirmDialog(model, newOcyake) {
   final _navigator = servicesLocator<NavigationService>();
   final style = StyleService();
 
@@ -152,17 +148,16 @@ Future confirmDialog(model, new_ocyake) {
             children: [
               SizedBox(height: 8),
               Text('名前', style: style.cardSubTitle),
-              Text(new_ocyake.name, style: style.cardSubText),
+              Text(newOcyake.name, style: style.cardSubText),
               SizedBox(height: 8),
               Text('品目', style: style.cardSubTitle),
-              Text(new_ocyake.type, style: style.cardSubText),
+              Text(newOcyake.type, style: style.cardSubText),
               SizedBox(height: 8),
-              Text('度数'.toString(), style: style.cardSubTitle),
-              Text('${new_ocyake.alcohol.toString()}度',
-                  style: style.cardSubText),
+              Text('度数', style: style.cardSubTitle),
+              Text('${newOcyake.alcohol}度', style: style.cardSubText),
               SizedBox(height: 8),
               Text('原産国', style: style.cardSubTitle),
-              Text(new_ocyake.madeIn, style: style.cardSubText),
+              Text(newOcyake.madeIn, style: style.cardSubText),
             ],
           ),
         ),
@@ -180,7 +175,7 @@ Future confirmDialog(model, new_ocyake) {
             child: Text("OK"),
             onPressed: () => {
               /// セーブする
-              saveOcyake(model, new_ocyake)
+              saveOcyake(model, newOcyake)
             },
           ),
         ],
