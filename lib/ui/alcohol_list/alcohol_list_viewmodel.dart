@@ -19,10 +19,10 @@ class AlcoholListViewModel extends BaseViewModel {
     setBusy(true);
 
     _ocyakes = await _firestore.fetchOcyakes();
-    for (var i = 0; i < _ocyakes.length; i++) {
-      var query = _ocyakes[i].name;
-      _ocyakes[i].imageUrl = await APIService().getImageFromGoogle(query);
-    }
+    // for (var i = 0; i < _ocyakes.length; i++) {
+    //   var query = _ocyakes[i].name;
+    //   _ocyakes[i].imageUrl = await APIService().getImageFromGoogle(query);
+    // }
     setBusy(false);
     notifyListeners();
   }

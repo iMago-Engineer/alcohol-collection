@@ -17,7 +17,8 @@ class RootView extends StatelessWidget {
               body: Scaffold(body: AlcoholListView()),
               floatingActionButtonLocation:
                   FloatingActionButtonLocation.endDocked,
-              floatingActionButton: CameraButton(model: model),
+              floatingActionButton:
+                  model.isBusy ? null : CameraButton(model: model),
             ),
     );
   }
