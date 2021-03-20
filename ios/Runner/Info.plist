@@ -46,5 +46,23 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
+
+	<key>NSPhotoLibraryUsageDescription</key>
+ 	<string>This app requires to access your photo library</string>
+ 	<key>NSCameraUsageDescription</key>
+ 	<string>This app requires to add file to your camera</string>
+ 	<key>NSMicrophoneUsageDescription</key>
+ 	<string>This app requires to add file to your photo library your microphone</string>
+	 
+	<!--
+ 		開発中にローカルマシンでFirebaseサービスをエミュレートする場合
+ 	    iOSアプリが安全でない接続を介してローカルネットワークサービスに接続できるようにする必要がある
+ 		= 安全でない接続を許可
+ 	-->
+ 	<key>NSAppTransportSecurity</key>
+ 	<dict>
+ 		<key>NSAllowsLocalNetworking</key>
+ 		<true/>
+ 	</dict>
 </dict>
 </plist>

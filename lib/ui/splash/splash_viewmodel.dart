@@ -1,5 +1,6 @@
-import 'package:alcohol_collection/service/navigation.dart';
+import 'package:alcohol_collection/services/navigation.dart';
 import 'package:alcohol_collection/ui/root/root_view.dart';
+import 'package:alcohol_collection/ui/camera/camera_view.dart';
 import 'package:stacked/stacked.dart';
 
 import '../../service_locator.dart';

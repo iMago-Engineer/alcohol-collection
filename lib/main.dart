@@ -1,4 +1,4 @@
-import 'package:alcohol_collection/service/navigation.dart';
+import 'package:alcohol_collection/services/navigation.dart';
 import 'package:alcohol_collection/service_locator.dart';
 import 'package:alcohol_collection/ui/splash/splash_view.dart';
 import 'package:flutter/material.dart';
