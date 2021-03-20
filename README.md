@@ -1,4 +1,4 @@
-# alcohol_correction
+# alcohol_collection
 
 A new Flutter project.
 
