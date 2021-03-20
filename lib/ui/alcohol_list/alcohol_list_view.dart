@@ -60,8 +60,8 @@ class _OcyakeCard extends ViewModelWidget<AlcoholListViewModel> {
         topCardWidget: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Image.network(ocyake.imageUrl),
-            SizedBox(height: 14),
+            // Image.network(ocyake.imageUrl),
+            // SizedBox(height: 14),
             Text(ocyake.name, style: style.cardTitle),
             SizedBox(height: 28),
           ],
