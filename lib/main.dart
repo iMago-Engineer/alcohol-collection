@@ -1,10 +1,16 @@
 import 'package:alcohol_collection/services/navigation.dart';
 import 'package:alcohol_collection/service_locator.dart';
 import 'package:alcohol_collection/ui/splash/splash_view.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
   setupServiceLocator();
+
+  await Firebase.initializeApp();
+
   runApp(MyApp());
 }
 

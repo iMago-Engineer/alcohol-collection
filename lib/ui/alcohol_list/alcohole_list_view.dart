@@ -1,15 +1,15 @@
 import 'package:alcohol_collection/models/comment.dart';
 import 'package:alcohol_collection/models/ocyake.dart';
+import 'package:alcohol_collection/services/firestore.dart';
+import 'package:alcohol_collection/service_locator.dart';
 import 'package:stacked/stacked.dart';
 
 class AlcoholListViewModel extends BaseViewModel {
   Future<void> loadOcyake() async {
     setBusy(true);
 
-    /// [todo]
-    /// get data from firebase
-    await Future.delayed(Duration(seconds: 1));
-    _ocyakes = _dummyData;
+    _ocyakes = await servicesLocator<FirestoreService>().fetchOcyakes();
+
     setBusy(false);
     notifyListeners();
   }
