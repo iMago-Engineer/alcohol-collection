@@ -52,7 +52,7 @@ class _OcyakeCard extends ViewModelWidget<AlcoholListViewModel> {
   Widget build(BuildContext context, AlcoholListViewModel model) {
     final screenSize = MediaQuery.of(context).size;
 
-    final double _bottomCardHeight = 150.0 + 100.0 * ocyake.comments.length;
+    final double _bottomCardHeight = 200.0 + 100.0 * ocyake.comments.length;
 
     return Container(
       padding: EdgeInsets.all(16),
@@ -72,7 +72,10 @@ class _OcyakeCard extends ViewModelWidget<AlcoholListViewModel> {
           children: [
             _Details(ocyake: ocyake),
             Divider(thickness: 2),
-            _CommentTimeLine(comments: ocyake.comments)
+            _CommentTimeLine(comments: ocyake.comments),
+            Row(
+              children: [_CommentInputArea(), _PostCommentButton()],
+            ),
           ],
         ),
         slimeEnabled: true,
@@ -161,6 +164,40 @@ class _CommentTimeLine extends ViewModelWidget<AlcoholListViewModel> {
             ),
           ),
       ]),
+    );
+  }
+}
+
+class _CommentInputArea extends ViewModelWidget<AlcoholListViewModel> {
+  @override
+  Widget build(BuildContext context, AlcoholListViewModel model) {
+    return Container(
+      width: 200, // TODO: 後で
+      margin: EdgeInsets.fromLTRB(16, 0, 4, 0),
+      padding: EdgeInsets.symmetric(horizontal: 8),
+      decoration: BoxDecoration(
+          border: Border.all(color: Colors.grey),
+          borderRadius: BorderRadius.circular(4)),
+      child: TextField(
+        // TODO: 入力を受け取る機能
+        maxLines: 2,
+        decoration: InputDecoration(
+            border: InputBorder.none, hintText: 'Enter a search term'),
+      ),
+    );
+  }
+}
+
+class _PostCommentButton extends StatelessWidget {
+  const _PostCommentButton({Key key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return IconButton(
+      icon: Icon(Icons.send),
+      onPressed: () {
+        print('send');
+      },
     );
   }
 }
