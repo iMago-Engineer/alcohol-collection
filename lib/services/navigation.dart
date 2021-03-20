@@ -35,6 +35,9 @@ class NavigationService {
   /// 一個前の画面に戻る
   void pop() => navigatorKey.currentState.pop();
 
+  /// 画面遷移
+  void push(context) => navigatorKey.currentState.push(context);
+
   static Route<dynamic> generateRoute(RouteSettings settings) {
     switch (settings.name) {
       case SplashView.routeName:
