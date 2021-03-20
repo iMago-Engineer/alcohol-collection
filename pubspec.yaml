@@ -27,6 +27,7 @@ dependencies:
   flutter_rating_bar: ^3.2.0+1
   flushbar: ^1.10.4
   http: ^0.12.2
+  flutter_dotenv: ^3.1.0
 
 dev_dependencies:
   flutter_test:
@@ -36,4 +37,5 @@ flutter:
   uses-material-design: true
 
   assets:
+    - .env
     - "images/puha-color.png"

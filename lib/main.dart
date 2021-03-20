@@ -1,3 +1,5 @@
+import 'package:flutter_dotenv/flutter_dotenv.dart' as DotEnv;
+
 import 'package:alcohol_collection/services/navigation.dart';
 import 'package:alcohol_collection/service_locator.dart';
 import 'package:alcohol_collection/ui/splash/splash_view.dart';
@@ -6,9 +8,8 @@ import 'package:flutter/material.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-
   setupServiceLocator();
-
+  await DotEnv.load(fileName: ".env");
   await Firebase.initializeApp();
 
   runApp(MyApp());
