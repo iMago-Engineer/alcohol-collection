@@ -1,12 +1,13 @@
 import 'dart:convert';
 
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart' as http;
 
 class APIService {
   Future<dynamic> getImageFromGoogle(String query) async {
     final baseUrl = 'https://www.googleapis.com/customsearch/v1';
-    final key = 'AIzaSyBHWHwxT_-OPntC9fRHHTnBW_eHvcDUl7k';
-    final searchEngineId = '87f63fcbf55b82e53';
+    final key = env['KEY'];
+    final searchEngineId = env['SEARCH_ENGINE_ID'];
 
     var url = '$baseUrl?key=$key&cx=$searchEngineId&q=$query liquor';
 
