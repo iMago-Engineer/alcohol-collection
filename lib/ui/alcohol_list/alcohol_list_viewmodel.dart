@@ -1,3 +1,4 @@
+import 'package:alcohol_collection/models/comment.dart';
 import 'package:alcohol_collection/models/ocyake.dart';
 import 'package:alcohol_collection/services/style.dart';
 import 'package:alcohol_collection/shared/loading.dart';
@@ -60,7 +61,7 @@ class _OcyakeCard extends ViewModelWidget<AlcoholListViewModel> {
         topCardWidget: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Image.network(ocyake.imageUrl),
+            if (ocyake.imageUrl != null) Image.network(ocyake.imageUrl),
             SizedBox(height: 14),
             Text(ocyake.name, style: style.cardTitle),
             SizedBox(height: 28),
@@ -70,6 +71,7 @@ class _OcyakeCard extends ViewModelWidget<AlcoholListViewModel> {
           children: [
             _Details(ocyake: ocyake),
             Divider(thickness: 2),
+            // _CommentTimeLine(comments: ocyake.comments)
           ],
         ),
         slimeEnabled: true,
@@ -106,5 +108,18 @@ class _Details extends ViewModelWidget<AlcoholListViewModel> {
         )
       ],
     );
+  }
+}
+
+class _CommentTimeLine extends ViewModelWidget<AlcoholListViewModel> {
+  final List<Comment> comments;
+  _CommentTimeLine({this.comments});
+
+  @override
+  Widget build(BuildContext context, AlcoholListViewModel model) {
+    return ListView.builder(
+        itemCount: comments.length,
+        itemBuilder: (context, index) =>
+            Row(children: [Text('emoji'), Text(comments[index].content)]));
   }
 }
