@@ -53,6 +53,13 @@ class ProcessAPIService {
       text_i = images[0]["fields"][i]["inferText"].replaceAll(":", "");
       serch_term = serch_term + " " + text_i;
     }
+
+    // ##########################
+    // デバッグ用処理
+    // うまく処理できなかったものを処理できるようにします
+    type = type.replaceAll('品目', '');
+    // ##########################
+
     print("End: inferBasicData");
     return [type, alcohol, madeIn, serch_term];
   }
