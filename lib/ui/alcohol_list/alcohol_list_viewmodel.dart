@@ -1,7 +1,9 @@
-import 'package:alcohol_collection/models/comment.dart';
+import 'dart:math';
+
 import 'package:alcohol_collection/models/ocyake.dart';
 import 'package:alcohol_collection/services/firestore.dart';
 import 'package:alcohol_collection/service_locator.dart';
+import 'package:flutter_emoji/flutter_emoji.dart';
 import 'package:stacked/stacked.dart';
 
 class AlcoholListViewModel extends BaseViewModel {
@@ -17,24 +19,28 @@ class AlcoholListViewModel extends BaseViewModel {
   List<Ocyake> get osyakes => _ocyakes;
   List<Ocyake> _ocyakes = [];
 
-  List<Ocyake> _dummyData = [
-    Ocyake(
-        name: 'ブラックニッカ',
-        type: 'ウイスキー',
-        alcohol: 37,
-        madeIn: '日本',
-        likes: 1,
-        imageUrl:
-            'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRAoctK6ARFsOmMtDLq9lLj8bIP6hzsI6Ro_eNldR8IQgr6nynAA65B0swMSYqUUWhxpG8Al9E1&usqp=CAc',
-        comments: [Comment(postedAt: DateTime.now(), content: '不味すぎワロタ')]),
-    Ocyake(
-        name: 'ブラックニッカ',
-        type: 'ウイスキー',
-        alcohol: 37,
-        madeIn: '日本',
-        likes: 1,
-        imageUrl:
-            'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRAoctK6ARFsOmMtDLq9lLj8bIP6hzsI6Ro_eNldR8IQgr6nynAA65B0swMSYqUUWhxpG8Al9E1&usqp=CAc',
-        comments: [Comment(postedAt: DateTime.now(), content: '不味すぎワロタ')])
+  var parser = EmojiParser();
+
+  get emoji => parser.emojify(':${emojiShortNames[2]}:');
+
+  static const List<String> emojiShortNames = [
+    'sparkles',
+    'boom',
+    'beers',
+    'beer',
+    'cocktails',
+    'sake',
+    'zany_face'
   ];
+
+  // List _shuffle(List items) {
+  //   var random = new Random();
+  //   for (var i = items.length - 1; i > 0; i--) {
+  //     var n = random.nextInt(i + 1);
+  //     var temp = items[i];
+  //     items[i] = items[n];
+  //     items[n] = temp;
+  //   }
+  //   return items;
+  // }
 }
