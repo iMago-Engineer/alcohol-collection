@@ -12,10 +12,9 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final appTheme = ThemeData(
-      primaryColor: Color(0xFF6DDA86),
-      accentColor: Color(0xFF405E79),
-      visualDensity: VisualDensity.adaptivePlatformDensity,
-    );
+        primaryColor: Color(0xff1DB954),
+        accentColor: Color(0xff191414),
+        visualDensity: VisualDensity.adaptivePlatformDensity);
 
     final materialApp = MaterialApp(
       debugShowCheckedModeBanner: false,

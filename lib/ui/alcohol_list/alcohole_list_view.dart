@@ -24,6 +24,13 @@ class AlcoholListViewModel extends BaseViewModel {
         alcohol: 37,
         madeIn: '日本',
         likes: 1,
+        comments: [Comment(postedAt: DateTime.now(), content: '不味すぎワロタ')]),
+    Ocyake(
+        name: 'ブラックニッカ',
+        type: 'ウイスキー',
+        alcohol: 37,
+        madeIn: '日本',
+        likes: 1,
         comments: [Comment(postedAt: DateTime.now(), content: '不味すぎワロタ')])
   ];
 }
