@@ -155,10 +155,8 @@ Future confirmDialog(model, newOcyake) {
                 },
                 style: style.cardSubText,
               ),
-              // Text(newOcyake.name, style: style.cardSubText),
               SizedBox(height: 8),
               Text('品目', style: style.cardSubTitle),
-              // Text(newOcyake.type, style: style.cardSubText),
               TextFormField(
                 initialValue: newOcyake.type,
                 onChanged: (newType) {
@@ -175,7 +173,6 @@ Future confirmDialog(model, newOcyake) {
                 },
                 style: style.cardSubText,
               ),
-              // Text('${newOcyake.alcohol}度', style: style.cardSubText),
               SizedBox(height: 8),
               Text('原産国', style: style.cardSubTitle),
               TextFormField(
@@ -185,7 +182,6 @@ Future confirmDialog(model, newOcyake) {
                 },
                 style: style.cardSubText,
               ),
-              // Text(newOcyake.madeIn, style: style.cardSubText),
             ],
           ),
         ),
