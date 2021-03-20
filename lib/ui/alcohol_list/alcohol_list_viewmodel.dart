@@ -1,4 +1,5 @@
 import 'package:alcohol_collection/models/ocyake.dart';
+import 'package:alcohol_collection/services/style.dart';
 import 'package:alcohol_collection/shared/loading.dart';
 import 'package:flutter/material.dart';
 import 'package:slimy_card/slimy_card.dart';
@@ -44,27 +45,66 @@ class _AlcoholListScreen extends ViewModelWidget<AlcoholListViewModel> {
 class _OcyakeCard extends ViewModelWidget<AlcoholListViewModel> {
   final Ocyake ocyake;
   _OcyakeCard({this.ocyake});
+
+  final style = StyleService();
+
   @override
   Widget build(BuildContext context, AlcoholListViewModel model) {
     final screenSize = MediaQuery.of(context).size;
     return Container(
       padding: EdgeInsets.all(16),
       child: SlimyCard(
-        color: Colors.grey,
-        width: screenSize.width * 0.7,
-        topCardHeight: screenSize.width * 0.7,
-        bottomCardHeight: 300,
+        color: Colors.white,
+        width: screenSize.width * 0.8,
         borderRadius: 10,
-        topCardWidget: Text(ocyake.name),
+        topCardWidget: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Image.network(ocyake.imageUrl),
+            SizedBox(height: 14),
+            Text(ocyake.name, style: style.cardTitle),
+            SizedBox(height: 28),
+          ],
+        ),
         bottomCardWidget: Column(
           children: [
-            Text(ocyake.type),
-            Text(ocyake.madeIn),
-            Text(ocyake.likes.toString())
+            _Details(ocyake: ocyake),
+            Divider(thickness: 2),
           ],
         ),
         slimeEnabled: true,
       ),
+    );
+  }
+}
+
+class _Details extends ViewModelWidget<AlcoholListViewModel> {
+  final Ocyake ocyake;
+  _Details({this.ocyake});
+
+  final style = StyleService();
+  @override
+  Widget build(BuildContext context, AlcoholListViewModel model) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      children: [
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text('品目', style: style.cardSubTitle),
+            Text('度数'.toString(), style: style.cardSubTitle),
+            Text('原産国', style: style.cardSubTitle)
+          ],
+        ),
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(ocyake.type, style: style.cardSubText),
+            Text('${ocyake.alcohol.toString()}度', style: style.cardSubText),
+            Text(ocyake.madeIn, style: style.cardSubText)
+          ],
+        )
+      ],
     );
   }
 }
