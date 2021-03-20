@@ -5,7 +5,6 @@ void main() {
 }
 
 class MyApp extends StatelessWidget {
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     final appTheme = ThemeData(
@@ -13,6 +12,18 @@ class MyApp extends StatelessWidget {
       accentColor: Color(0xff405E79),
       visualDensity: VisualDensity.adaptivePlatformDensity,
     );
-    return MaterialApp(title: 'Flutter Demo', theme: appTheme);
+
+    final materialApp = MaterialApp(
+      debugShowCheckedModeBanner: false,
+      theme: appTheme,
+      title: 'alcohol collection',
+      // navigatorKey: servicesLocator<NavigationService>().navigatorKey,
+      // navigatorObservers: [
+      //   servicesLocator<AnalyticsService>().getAnalyticsObserver()
+      // ],
+      // onGenerateRoute: NavigationService.generateRoute,
+      // initialRoute: StartUpView.routeName,
+    );
+    return materialApp;
   }
 }
