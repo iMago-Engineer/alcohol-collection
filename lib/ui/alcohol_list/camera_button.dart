@@ -51,21 +51,21 @@ Future showImagePickerDialog(context, AlcoholListViewModel model) {
           CupertinoDialogAction(
             child: Text("画像選択"),
             onPressed: () async {
-              Ocyake new_ocyake =
+              Ocyake newOcyake =
                   await getOcyakeBySendImage("gallery", context, model);
 
               /// 確認画面
-              confirmDialog(model, new_ocyake);
+              confirmDialog(model, newOcyake);
             },
           ),
           CupertinoDialogAction(
               child: Text("カメラ"),
               onPressed: () async {
-                Ocyake new_ocyake =
+                Ocyake newOcyake =
                     await getOcyakeBySendImage("camera", context, model);
 
                 /// 確認画面
-                confirmDialog(model, new_ocyake);
+                confirmDialog(model, newOcyake);
               }),
         ],
       );
