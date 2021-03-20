@@ -100,7 +100,8 @@ class _Details extends ViewModelWidget<AlcoholListViewModel> {
             Text('度数'.toString(), style: style.cardSubTitle),
             SizedBox(height: 8),
             Text('原産国', style: style.cardSubTitle),
-            SizedBox(height: 8)
+            SizedBox(height: 8),
+            Text('お気に入り度', style: style.cardSubTitle),
           ],
         ),
         Column(
@@ -113,6 +114,7 @@ class _Details extends ViewModelWidget<AlcoholListViewModel> {
             SizedBox(height: 8),
             Text(ocyake.madeIn, style: style.cardSubText),
             SizedBox(height: 8),
+            Text(ocyake.likes.toString(), style: style.cardSubText),
           ],
         )
       ],
@@ -149,7 +151,9 @@ class _CommentTimeLine extends ViewModelWidget<AlcoholListViewModel> {
                           comments[i].content,
                           style: TextStyle(fontSize: 14),
                         ),
-                        Text(comments[i].postedAt.toString(),
+                        Text(
+                            model.formatDateTime(
+                                comments[i].postedAt.toString()),
                             style: TextStyle(color: Colors.grey))
                       ],
                     ),

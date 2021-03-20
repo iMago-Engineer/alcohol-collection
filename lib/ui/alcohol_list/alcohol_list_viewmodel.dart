@@ -21,17 +21,22 @@ class AlcoholListViewModel extends BaseViewModel {
 
   var parser = EmojiParser();
 
-  get emoji => parser.emojify(':${emojiShortNames[2]}:');
+  get emoji => parser.emojify(':beers:');
 
-  static const List<String> emojiShortNames = [
-    'sparkles',
-    'boom',
-    'beers',
-    'beer',
-    'cocktails',
-    'sake',
-    'zany_face'
-  ];
+  String formatDateTime(String dateTime) {
+    var splittedDateTime = dateTime.split(':');
+    return splittedDateTime[0] + ':' + splittedDateTime[1];
+  }
+
+  // static const List<String> emojiShortNames = [
+  //   'sparkles',
+  //   'boom',
+  //   'beers',
+  //   'beer',
+  //   'cocktails',
+  //   'sake',
+  //   'zany_face'
+  // ];
 
   // List _shuffle(List items) {
   //   var random = new Random();
