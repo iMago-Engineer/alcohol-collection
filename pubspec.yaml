@@ -12,6 +12,7 @@ dependencies:
   # for firebase
   firebase_core: ^0.7.0
   firebase_storage: ^7.0.0
+  cloud_firestore: "^0.16.0+1"
   # 写真利用
   image_picker: ^0.6.7+22
 
