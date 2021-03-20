@@ -41,5 +41,15 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
+	<!--
+ 		開発中にローカルマシンでFirebaseサービスをエミュレートする場合
+ 	    iOSアプリが安全でない接続を介してローカルネットワークサービスに接続できるようにする必要がある
+ 		= 安全でない接続を許可
+ 	-->
+ 	<key>NSAppTransportSecurity</key>
+ 	<dict>
+ 		<key>NSAllowsLocalNetworking</key>
+ 		<true/>
+ 	</dict>
 </dict>
 </plist>
