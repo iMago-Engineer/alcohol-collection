@@ -148,16 +148,44 @@ Future confirmDialog(model, newOcyake) {
             children: [
               SizedBox(height: 8),
               Text('名前', style: style.cardSubTitle),
-              Text(newOcyake.name, style: style.cardSubText),
+              TextFormField(
+                initialValue: newOcyake.name,
+                onChanged: (newName) {
+                  newOcyake.name = newName;
+                },
+                style: style.cardSubText,
+              ),
+              // Text(newOcyake.name, style: style.cardSubText),
               SizedBox(height: 8),
               Text('品目', style: style.cardSubTitle),
-              Text(newOcyake.type, style: style.cardSubText),
+              // Text(newOcyake.type, style: style.cardSubText),
+              TextFormField(
+                initialValue: newOcyake.type,
+                onChanged: (newType) {
+                  newOcyake.type = newType;
+                },
+                style: style.cardSubText,
+              ),
               SizedBox(height: 8),
               Text('度数', style: style.cardSubTitle),
-              Text('${newOcyake.alcohol}度', style: style.cardSubText),
+              TextFormField(
+                initialValue: newOcyake.alcohol.toString(),
+                onChanged: (newAlcoholInString) {
+                  newOcyake.alcohol = int.parse(newAlcoholInString);
+                },
+                style: style.cardSubText,
+              ),
+              // Text('${newOcyake.alcohol}度', style: style.cardSubText),
               SizedBox(height: 8),
               Text('原産国', style: style.cardSubTitle),
-              Text(newOcyake.madeIn, style: style.cardSubText),
+              TextFormField(
+                initialValue: newOcyake.madeIn,
+                onChanged: (newMadeIn) {
+                  newOcyake.madeIn = newMadeIn;
+                },
+                style: style.cardSubText,
+              ),
+              // Text(newOcyake.madeIn, style: style.cardSubText),
             ],
           ),
         ),
