@@ -1,9 +1,5 @@
-import 'dart:convert';
-import 'dart:math';
-
 import 'package:alcohol_collection/models/comment.dart';
 import 'package:alcohol_collection/models/ocyake.dart';
-import 'package:alcohol_collection/services/api.dart';
 import 'package:alcohol_collection/services/firestore.dart';
 import 'package:alcohol_collection/service_locator.dart';
 import 'package:alcohol_collection/services/navigation.dart';
@@ -15,11 +11,11 @@ import 'package:stacked/stacked.dart';
 
 class AlcoholListViewModel extends BaseViewModel {
   final _firestore = servicesLocator<FirestoreService>();
-  Future<void> setBusyToRootViewModel() {
+  Future<void> setBusyToAlcoholListViewModel() {
     setBusy(true);
   }
 
-  Future<void> setNotBusyToRootViewModel() {
+  Future<void> setNotBusyToAlcoholListViewModel() {
     setBusy(false);
   }
 

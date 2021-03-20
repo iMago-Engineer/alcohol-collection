@@ -53,8 +53,13 @@ class FirestoreService {
   }
 
   Future<void> incrementNumberOfOcyakePhotosTaken(Ocyake ocyake) async {
-    final ocyakeDoc = ocyakesCollection.doc(ocyake.docId);
+    final ocyakeDoc = (await ocyakesCollection
+            .where('name', isEqualTo: ocyake.name)
+            .limit(1)
+            .get())
+        .docs[0]
+        .reference;
 
-    await ocyakeDoc.update({'numberOfPhotoTaken': FieldValue.increment(1)});
+    await ocyakeDoc.update({'numberOfPhotosTaken': FieldValue.increment(1)});
   }
 }

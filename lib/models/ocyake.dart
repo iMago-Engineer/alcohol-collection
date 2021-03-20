@@ -51,6 +51,7 @@ class Ocyake {
       'alcohol': alcohol,
       'madeIn': madeIn,
       'likes': likes,
+      'numberOfPhotosTaken': 1
     };
   }
 
