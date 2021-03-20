@@ -1,5 +1,4 @@
 import 'package:alcohol_collection/ui/alcohol_list/alcohol_list_view.dart';
-import 'package:alcohol_collection/ui/camera/camera_view.dart';
 import 'package:alcohol_collection/ui/root/root_view.dart';
 import 'package:alcohol_collection/ui/splash/splash_view.dart';
 import 'package:flutter/material.dart';
@@ -46,9 +45,6 @@ class NavigationService {
         break;
       case AlcoholListView.routeName:
         return MaterialPageRoute(builder: (_) => AlcoholListView());
-        break;
-      case CameraView.routeName:
-        return MaterialPageRoute(builder: (_) => CameraView());
         break;
       default:
         return MaterialPageRoute(
