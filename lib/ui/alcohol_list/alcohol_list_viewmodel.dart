@@ -26,7 +26,11 @@ class AlcoholListViewModel extends BaseViewModel {
         likes: 1,
         imageUrl:
             'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRAoctK6ARFsOmMtDLq9lLj8bIP6hzsI6Ro_eNldR8IQgr6nynAA65B0swMSYqUUWhxpG8Al9E1&usqp=CAc',
-        comments: [Comment(postedAt: DateTime.now(), content: '不味すぎワロタ')]),
+        comments: [
+          Comment(postedAt: DateTime.now(), content: '不味すぎワロタ'),
+          Comment(postedAt: DateTime.now(), content: '不味すぎワロタ'),
+          Comment(postedAt: DateTime.now(), content: '不味すぎワロタ')
+        ]),
     Ocyake(
         name: 'ブラックニッカ',
         type: 'ウイスキー',
