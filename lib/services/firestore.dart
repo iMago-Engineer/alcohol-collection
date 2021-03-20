@@ -35,4 +35,11 @@ class FirestoreService {
 
     await commentsCollection.add(commentToAdd.toFirestoreDocData());
   }
+
+  Future<void> updateRate(Ocyake ocyake, int newRate) async {
+    final dataToUpdate = {'likes': newRate};
+    final likesDoc = ocyakesCollection.doc(ocyake.docId);
+
+    await likesDoc.update(dataToUpdate);
+  }
 }

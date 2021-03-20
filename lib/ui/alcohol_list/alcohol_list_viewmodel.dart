@@ -7,10 +7,11 @@ import 'package:flutter_emoji/flutter_emoji.dart';
 import 'package:stacked/stacked.dart';
 
 class AlcoholListViewModel extends BaseViewModel {
+  final _firestore = servicesLocator<FirestoreService>();
   Future<void> loadOcyake() async {
     setBusy(true);
 
-    _ocyakes = await servicesLocator<FirestoreService>().fetchOcyakes();
+    _ocyakes = await _firestore.fetchOcyakes();
 
     setBusy(false);
     notifyListeners();
@@ -21,17 +22,27 @@ class AlcoholListViewModel extends BaseViewModel {
 
   var parser = EmojiParser();
 
-  get emoji => parser.emojify(':${emojiShortNames[2]}:');
+  get emoji => parser.emojify(':beers:');
 
-  static const List<String> emojiShortNames = [
-    'sparkles',
-    'boom',
-    'beers',
-    'beer',
-    'cocktails',
-    'sake',
-    'zany_face'
-  ];
+  String formatDateTime(String dateTime) {
+    var splittedDateTime = dateTime.split(':');
+    return splittedDateTime[0] + ':' + splittedDateTime[1];
+  }
+
+  void updateRate(Ocyake ocyake, double rating) {
+    int newRate = rating.toInt();
+    _firestore.updateRate(ocyake, newRate);
+  }
+
+  // static const List<String> emojiShortNames = [
+  //   'sparkles',
+  //   'boom',
+  //   'beers',
+  //   'beer',
+  //   'cocktails',
+  //   'sake',
+  //   'zany_face'
+  // ];
 
   // List _shuffle(List items) {
   //   var random = new Random();

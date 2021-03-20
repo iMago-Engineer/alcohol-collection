@@ -4,6 +4,7 @@ import 'package:alcohol_collection/services/style.dart';
 import 'package:alcohol_collection/shared/loading.dart';
 import 'package:alcohol_collection/ui/alcohol_list/alcohol_list_viewmodel.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:slimy_card/slimy_card.dart';
 import 'package:stacked/stacked.dart';
 
@@ -71,6 +72,8 @@ class _OcyakeCard extends ViewModelWidget<AlcoholListViewModel> {
         bottomCardWidget: Column(
           children: [
             _Details(ocyake: ocyake),
+            SizedBox(height: 8),
+            _RatingBar(ocyake: ocyake, rate: ocyake.likes.toDouble()),
             Divider(thickness: 2),
             _CommentTimeLine(comments: ocyake.comments)
           ],
@@ -100,7 +103,6 @@ class _Details extends ViewModelWidget<AlcoholListViewModel> {
             Text('度数'.toString(), style: style.cardSubTitle),
             SizedBox(height: 8),
             Text('原産国', style: style.cardSubTitle),
-            SizedBox(height: 8)
           ],
         ),
         Column(
@@ -112,10 +114,31 @@ class _Details extends ViewModelWidget<AlcoholListViewModel> {
             Text('${ocyake.alcohol.toString()}度', style: style.cardSubText),
             SizedBox(height: 8),
             Text(ocyake.madeIn, style: style.cardSubText),
-            SizedBox(height: 8),
           ],
         )
       ],
+    );
+  }
+}
+
+class _RatingBar extends ViewModelWidget<AlcoholListViewModel> {
+  final Ocyake ocyake;
+  final double rate;
+  _RatingBar({this.rate, this.ocyake});
+  @override
+  Widget build(BuildContext context, AlcoholListViewModel model) {
+    return RatingBar.builder(
+      initialRating: rate,
+      minRating: 1,
+      direction: Axis.horizontal,
+      itemCount: 5,
+      itemBuilder: (context, _) => Icon(
+        Icons.star,
+        color: Colors.amber,
+      ),
+      onRatingUpdate: (rating) {
+        model.updateRate(ocyake, rating);
+      },
     );
   }
 }
@@ -149,7 +172,9 @@ class _CommentTimeLine extends ViewModelWidget<AlcoholListViewModel> {
                           comments[i].content,
                           style: TextStyle(fontSize: 14),
                         ),
-                        Text(comments[i].postedAt.toString(),
+                        Text(
+                            model.formatDateTime(
+                                comments[i].postedAt.toString()),
                             style: TextStyle(color: Colors.grey))
                       ],
                     ),
