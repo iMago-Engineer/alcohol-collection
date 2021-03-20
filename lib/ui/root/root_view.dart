@@ -1,3 +1,4 @@
+import 'package:alcohol_collection/ui/alcohol_list/alcohol_list_viewmodel.dart';
 import 'package:alcohol_collection/ui/root/root_viewmodel.dart';
 import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
@@ -7,17 +8,9 @@ class RootView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ViewModelBuilder<RootViewModel>.reactive(
-        builder: (context, model, child) =>
-            Scaffold(appBar: AppBar(), body: _RootScreen()),
-        viewModelBuilder: () => RootViewModel());
-  }
-}
-
-class _RootScreen extends ViewModelWidget<RootViewModel> {
-  @override
-  Widget build(BuildContext context, RootViewModel model) {
-    return Center(
-      child: Text('root'),
+      viewModelBuilder: () => RootViewModel(),
+      builder: (context, model, child) =>
+          Scaffold(body: Scaffold(body: AlcoholListView())),
     );
   }
 }

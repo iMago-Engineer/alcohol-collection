@@ -17,6 +17,7 @@ class SplashView extends StatelessWidget {
 class _SplashScreen extends ViewModelWidget<SplashViewModel> {
   @override
   Widget build(BuildContext context, SplashViewModel model) {
-    return Container(color: Theme.of(context).primaryColor);
+    return Container(
+        color: Colors.white, child: Center(child: Text('Ocyake daisuki')));
   }
 }

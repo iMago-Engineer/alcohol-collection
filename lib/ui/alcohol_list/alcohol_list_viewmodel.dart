@@ -1,3 +1,4 @@
+import 'package:alcohol_collection/shared/loading.dart';
 import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
 
@@ -8,9 +9,11 @@ class AlcoholListView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ViewModelBuilder<AlcoholListViewModel>.reactive(
-        builder: (context, model, child) =>
-            Scaffold(body: _AlcoholListScreen()),
-        viewModelBuilder: () => AlcoholListViewModel());
+      viewModelBuilder: () => AlcoholListViewModel(),
+      onModelReady: (model) => model.loadOcyake(),
+      builder: (context, model, child) =>
+          model.isBusy ? Loading() : Scaffold(body: _AlcoholListScreen()),
+    );
   }
 }
 
