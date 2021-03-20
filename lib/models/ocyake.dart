@@ -43,14 +43,13 @@ class Ocyake {
   }
 
   Map<String, dynamic> toFirestoreDocData() {
-    // TODO: imageUrl いつ追加する?
-    // NOTE: おっくんのアルゴリズムと合わせて使う必要があるかも
     return {
       'name': name,
       'type': type,
       'alcohol': alcohol,
       'madeIn': madeIn,
       'likes': likes,
+      'imageUrl': imageUrl,
       'numberOfPhotosTaken': 1
     };
   }
