@@ -58,7 +58,7 @@ class _OcyakeCard extends ViewModelWidget<AlcoholListViewModel> {
   Widget build(BuildContext context, AlcoholListViewModel model) {
     final screenSize = MediaQuery.of(context).size;
 
-    final double _bottomCardHeight = 250.0 + 100.0 * ocyake.comments.length;
+    final double _bottomCardHeight = 280.0 + 100.0 * ocyake.comments.length;
 
     return Container(
       padding: EdgeInsets.all(16),
@@ -114,6 +114,8 @@ class _Details extends ViewModelWidget<AlcoholListViewModel> {
             Text('度数'.toString(), style: style.cardSubTitle),
             SizedBox(height: 8),
             Text('原産国', style: style.cardSubTitle),
+            SizedBox(height: 8),
+            Text('出会った回数', style: style.cardSubTitle),
           ],
         ),
         Column(
@@ -125,6 +127,8 @@ class _Details extends ViewModelWidget<AlcoholListViewModel> {
             Text('${ocyake.alcohol.toString()}度', style: style.cardSubText),
             SizedBox(height: 8),
             Text(ocyake.madeIn, style: style.cardSubText),
+            SizedBox(height: 8),
+            Text('${ocyake.numberOfPhotosTaken}', style: style.cardSubText),
           ],
         )
       ],
