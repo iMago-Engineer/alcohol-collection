@@ -26,6 +26,7 @@ class FirestoreService {
   }
 
   Future<void> postOcyake(Ocyake ocyake) async {
+    print("start: postOcyake");
     await ocyakesCollection.add(ocyake.toFirestoreDocData());
   }
 

@@ -7,12 +7,12 @@ import 'package:alcohol_collection/service_locator.dart';
 import 'package:alcohol_collection/services/firebase_api.dart';
 import 'package:alcohol_collection/services/line_ocr_api.dart';
 import 'package:alcohol_collection/services/process_api_response.dart';
+import 'package:alcohol_collection/services/style.dart';
 import 'package:alcohol_collection/services/firestore.dart';
 import 'package:alcohol_collection/services/navigation.dart';
-import 'package:alcohol_collection/ui/root/root_viewmodel.dart';
 import 'package:alcohol_collection/ui/root/root_view.dart';
-
 import 'alcohol_list_viewmodel.dart';
+import '../../models/ocyake.dart';
 
 class CameraButton extends StatelessWidget {
   final AlcoholListViewModel model;
@@ -49,11 +49,23 @@ Future showImagePickerDialog(context, AlcoholListViewModel model) {
         actions: <Widget>[
           CupertinoDialogAction(
             child: Text("画像選択"),
-            onPressed: () => imageFunction("gallery", model),
+            onPressed: () async {
+              Ocyake new_ocyake =
+                  await getOcyakeBySendImage("camera", context, model);
+
+              /// 確認画面
+              confirmDialog(model, new_ocyake);
+            },
           ),
           CupertinoDialogAction(
               child: Text("カメラ"),
-              onPressed: () => imageFunction("camera", model)),
+              onPressed: () async {
+                Ocyake new_ocyake =
+                    await getOcyakeBySendImage("camera", context, model);
+
+                /// 確認画面
+                confirmDialog(model, new_ocyake);
+              }),
         ],
       );
     },
@@ -67,7 +79,9 @@ Future getImageFromGalleryOrCamera(source) async {
   return await picker.getImage(source: source, imageQuality: 30);
 }
 
-Future imageFunction(String type, AlcoholListViewModel model) async {
+/// 画像送信から Ocyake取得
+Future<Ocyake> getOcyakeBySendImage(
+    String type, context, AlcoholListViewModel model) async {
   final _navigator = servicesLocator<NavigationService>();
 
   final file = (type == 'gallery')
@@ -122,6 +136,78 @@ Future imageFunction(String type, AlcoholListViewModel model) async {
     // firestore に保存
     await _firestore.postOcyake(newOcyake);
   }
+  // set NotBusy
+  model.setNotBusyToRootViewModel();
+
+  return newOcyake;
+}
+
+/// 確認画面 -> 戻る or データ保存
+Future confirmDialog(model, new_ocyake) {
+  final _navigator = servicesLocator<NavigationService>();
+  final style = StyleService();
+
+  print("confirmDialog");
+
+  return showDialog(
+    context: _navigator.currentContext,
+    builder: (_) {
+      return AlertDialog(
+        title: Text('登録しますか？'),
+        content: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              SizedBox(height: 8),
+              Text('名前', style: style.cardSubTitle),
+              Text(new_ocyake.name, style: style.cardSubText),
+              SizedBox(height: 8),
+              Text('品目', style: style.cardSubTitle),
+              Text(new_ocyake.type, style: style.cardSubText),
+              SizedBox(height: 8),
+              Text('度数'.toString(), style: style.cardSubTitle),
+              Text('${new_ocyake.alcohol.toString()}度',
+                  style: style.cardSubText),
+              SizedBox(height: 8),
+              Text('原産国', style: style.cardSubTitle),
+              Text(new_ocyake.madeIn, style: style.cardSubText),
+            ],
+          ),
+        ),
+
+        /// 確認アクション
+        actions: <Widget>[
+          FlatButton(
+            child: Text("CANCEL"),
+            onPressed: () {
+              /// キャンセルなら戻る
+              _navigator.pushNamedAndRemoveUntil(routeName: RootView.routeName);
+            },
+          ),
+          FlatButton(
+            child: Text("OK"),
+            onPressed: () => {
+              /// セーブする
+              saveOcyake(model, new_ocyake)
+            },
+          ),
+        ],
+      );
+    },
+  );
+}
+
+/// 詳細保存
+Future saveOcyake(model, new_ocyake) {
+  final _navigator = servicesLocator<NavigationService>();
+  final _fire_store_api = servicesLocator<FirestoreService>();
+
+  // to Loading Screen
+  _navigator.pop();
+  model.setBusyToRootViewModel();
+
+  // firestore に保存
+  _fire_store_api.postOcyake(new_ocyake);
 
   // Navigation to Root
   // データ取得しなおすために？？
