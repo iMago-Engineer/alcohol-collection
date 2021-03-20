@@ -1,4 +1,4 @@
-import 'package:alcohol_collection/ui/alcohol_list/alcohol_list_viewmodel.dart';
+import 'package:alcohol_collection/ui/alcohol_list/alcohol_list_view.dart';
 import 'package:alcohol_collection/ui/camera/camera_view.dart';
 import 'package:alcohol_collection/ui/root/root_view.dart';
 import 'package:alcohol_collection/ui/splash/splash_view.dart';
