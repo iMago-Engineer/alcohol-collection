@@ -3,6 +3,7 @@ import 'package:alcohol_collection/models/ocyake.dart';
 import 'package:alcohol_collection/services/style.dart';
 import 'package:alcohol_collection/shared/loading.dart';
 import 'package:alcohol_collection/ui/alcohol_list/alcohol_list_viewmodel.dart';
+import 'package:alcohol_collection/ui/alcohol_list/camera_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:slimy_card/slimy_card.dart';
@@ -27,6 +28,10 @@ class AlcoholListView extends StatelessWidget {
               ),
               body: _AlcoholListScreen(),
               backgroundColor: Color(0xff191414),
+              floatingActionButtonLocation:
+                  FloatingActionButtonLocation.endDocked,
+              floatingActionButton:
+                  model.isBusy ? null : CameraButton(model: model),
             ),
     );
   }
