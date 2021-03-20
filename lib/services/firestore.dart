@@ -12,14 +12,8 @@ class FirestoreService {
       // 今の ocyake の comments を取得する
       final commentsCollection = ocyakeDoc.reference.collection('comments');
       final commentDocs = (await commentsCollection.get()).docs;
-      final comments =
-          commentDocs.map((commentDoc) => commentDoc.data()).toList();
 
-      // comments のデータを ocyake のデータと統合させる
-      var ocyakeDocData = ocyakeDoc.data();
-      ocyakeDocData.addAll({'comments': comments});
-
-      ocyakes.add(Ocyake.fromFirestore(ocyakeDocData));
+      ocyakes.add(Ocyake.fromFirestore(ocyakeDoc, commentDocs));
     }
 
     return ocyakes;
