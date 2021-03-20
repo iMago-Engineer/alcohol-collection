@@ -17,7 +17,7 @@ class APIService {
     return imageUrl;
   }
 
-  String getImageUrl(dynamic data) {
+  dynamic getImageUrl(dynamic data) {
     for (var i = 0; i < 10; i++) {
       var items = data['items'];
       var cseImage = items[i]['pagemap']['cse_image'];
