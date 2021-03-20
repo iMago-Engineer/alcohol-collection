@@ -73,7 +73,7 @@ class _OcyakeCard extends ViewModelWidget<AlcoholListViewModel> {
           children: [
             _Details(ocyake: ocyake),
             SizedBox(height: 8),
-            _RatingBar(rate: ocyake.likes.toDouble()),
+            _RatingBar(ocyake: ocyake, rate: ocyake.likes.toDouble()),
             Divider(thickness: 2),
             _CommentTimeLine(comments: ocyake.comments)
           ],
@@ -122,8 +122,9 @@ class _Details extends ViewModelWidget<AlcoholListViewModel> {
 }
 
 class _RatingBar extends ViewModelWidget<AlcoholListViewModel> {
+  final Ocyake ocyake;
   final double rate;
-  _RatingBar({this.rate});
+  _RatingBar({this.rate, this.ocyake});
   @override
   Widget build(BuildContext context, AlcoholListViewModel model) {
     return RatingBar.builder(
@@ -135,7 +136,9 @@ class _RatingBar extends ViewModelWidget<AlcoholListViewModel> {
         Icons.star,
         color: Colors.amber,
       ),
-      onRatingUpdate: (rating) {},
+      onRatingUpdate: (rating) {
+        model.updateRate(ocyake, rating);
+      },
     );
   }
 }

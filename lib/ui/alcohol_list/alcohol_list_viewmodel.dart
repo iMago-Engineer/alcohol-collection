@@ -7,10 +7,11 @@ import 'package:flutter_emoji/flutter_emoji.dart';
 import 'package:stacked/stacked.dart';
 
 class AlcoholListViewModel extends BaseViewModel {
+  final _firestore = servicesLocator<FirestoreService>();
   Future<void> loadOcyake() async {
     setBusy(true);
 
-    _ocyakes = await servicesLocator<FirestoreService>().fetchOcyakes();
+    _ocyakes = await _firestore.fetchOcyakes();
 
     setBusy(false);
     notifyListeners();
@@ -26,6 +27,11 @@ class AlcoholListViewModel extends BaseViewModel {
   String formatDateTime(String dateTime) {
     var splittedDateTime = dateTime.split(':');
     return splittedDateTime[0] + ':' + splittedDateTime[1];
+  }
+
+  void updateRate(Ocyake ocyake, double rating) {
+    int newRate = rating.toInt();
+    _firestore.updateRate(ocyake, newRate);
   }
 
   // static const List<String> emojiShortNames = [
