@@ -17,7 +17,12 @@ class SplashView extends StatelessWidget {
 class _SplashScreen extends ViewModelWidget<SplashViewModel> {
   @override
   Widget build(BuildContext context, SplashViewModel model) {
+    final screenSize = MediaQuery.of(context).size;
     return Container(
-        color: Colors.white, child: Center(child: Text('Ocyake daisuki')));
+        color: Theme.of(context).primaryColor,
+        child: Center(
+            child: Container(
+                width: screenSize.width * 0.7,
+                child: Image.asset('images/puha-color.png'))));
   }
 }
