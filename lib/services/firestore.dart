@@ -14,10 +14,23 @@ class FirestoreService {
   }
 
   Future<List<Ocyake>> fetchOcyakes() async {
-    final ocyakeDocs = (await ocyakesCollection.get()).docs;
+    var ocyakes = <Ocyake>[];
 
-    return ocyakeDocs
-        .map((ocyakeDoc) => Ocyake.fromFirestore(ocyakeDoc.data()))
-        .toList();
+    final ocyakeDocs = (await ocyakesCollection.get()).docs;
+    for (var ocyakeDoc in ocyakeDocs) {
+      // 今の ocyake の comments を取得する
+      final commentsCollection = ocyakeDoc.reference.collection('comments');
+      final commentDocs = (await commentsCollection.get()).docs;
+      final comments =
+          commentDocs.map((commentDoc) => commentDoc.data()).toList();
+
+      // comments のデータを ocyake のデータと統合させる
+      var ocyakeDocData = ocyakeDoc.data();
+      ocyakeDocData.addAll({'comments': comments});
+
+      ocyakes.add(Ocyake.fromFirestore(ocyakeDocData));
+    }
+
+    return ocyakes;
   }
 }
