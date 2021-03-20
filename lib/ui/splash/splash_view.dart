@@ -1,4 +1,3 @@
-import 'package:alcohol_correction/ui/splash/splash_viewmodel.dart';
 import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
 
